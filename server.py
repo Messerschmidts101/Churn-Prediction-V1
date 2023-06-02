@@ -18,7 +18,7 @@ def predict():
     if request.method == "POST":
         float_features = [float(x) for x in request.form.values()]
         features = [np.array(float_features)]
-        prediction = churnprediction.predict_proba(features)[0][0]
+        prediction = churnprediction.predict_proba(features)[0][1]
         print("Prediction: ", prediction)
         return render_template("index.html", Prediction_Here="The customer churn probability is: {}".format(prediction))
     else:
@@ -26,15 +26,12 @@ def predict():
 
 if __name__ == "__main__":
     flask_app.run(debug=True, host='0.0.0.0',port=8080)
-'''
 
-@flask_app.route("/")
-def Home():
-    return render_template("index.html")
-@flask_app.route("/predict", methods = ["POST"])
-def predict():
-    float_features = [float(x) for x in request.form.values()]
-    features = [np.array(float_features)]
-    prediction = classifier.predict(features)
-    return render_template("index.html", prediction_text = "The flower species is {}".format(prediction))
-'''
+"""
+predict([[0,26,161.6],[1,0,243.4],[1,0,299.4]])
+:::['churned','not-churned','churned']
+
+predict_proba([[0,26,161.6]])
+:::[[.9,.1],[.35,.65],[.51,.49]]
+"""
+

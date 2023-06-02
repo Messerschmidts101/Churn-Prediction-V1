@@ -30,8 +30,9 @@ number_customer_service_calls :  0.13538466982989109
 [[THINGS NEEDED TO WORK ON]]
 1. Imputing missing values
 2. Encoded variables [done]
-3. Handling imbalanced dataset
-4. Feature engineering
+3. Data Imputation
+4. Handling imbalanced dataset
+5. Feature engineering
 
 """
 
@@ -51,19 +52,6 @@ import nltk
 from nltk.stem.porter import PorterStemmer
 from nltk.corpus import stopwords
 
-'''def one_hot_encode(df):
-    # Get a list of columns to encode
-    columns_to_encode = df.select_dtypes(include=['object']).columns.tolist()
-    
-    # Perform one-hot encoding
-    encoded_df = pd.get_dummies(df, columns=columns_to_encode)
-    print('encoded df: \n', encoded_df)
-    
-    return encoded_df'''
-
-
-def divide_dataset(data_set):
-    pass
 
 def one_hot_encode(data_set):
     # Perform one-hot encoding
@@ -94,8 +82,9 @@ def fitChurn():
     print("after encoding: \n",x)
     # Convert x to CSV
     x.to_csv('model/data/x_data.csv', index=False)
-    '''=========================I.D. DATA PREPARATION: FEATURE ENGINERING========================='''
-    '''=========================I.E. DATA PREPARATION: TRAIN/TEST SPLIT========================='''
+    '''=========================I.D. DATA PREPARATION: HANDLING IMBALANCED DATASET========================='''
+    '''=========================I.E. DATA PREPARATION: FEATURE ENGINEERING========================='''
+    '''=========================I.F. DATA PREPARATION: TRAIN/TEST SPLIT========================='''
     x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=.20, random_state=123)
     '''=========================II. TRAINING========================='''
     classifier = RandomForestClassifier(n_estimators=400, max_depth=10, criterion="entropy")
