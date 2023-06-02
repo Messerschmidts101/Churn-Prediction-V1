@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>ML API</title>
+</head>
+
+<body>
+ <div class="div1">
+    <h1>Testing Prediction</h1>
+    <!-- Main Input For Receiving Query to our ML -->
+    
+    <input id="pasteData" type="text" placeholder="Paste Excel row here" />
+    <button id="pasteButton">Scatter Values</button> <!-- Add the paste button -->
+    <h2> ...OR INPUT BELOW EACH VALUES INDIVIDUALLY</h2>
+    <form action="http://192.168.1.8:8080/predict" method="post" id="predictionForm">
+        <input id="state" class="Name" type="text" name="state" placeholder="state" required="required" /><br>
+        <input id="account_length" class="Name" type="text" name="account_length" placeholder="account_length" required="required" /><br>
+        <input id="area_code" class="Name" type="text" name="area_code" placeholder="area_code" required="required" /><br>
+        <input id="international_plan" class="Name" type="text" name="international_plan" placeholder="international_plan" required="required" /><br>
+        <input id="voice_mail_plan" class="Name" type="text" name="voice_mail_plan" placeholder="voice_mail_plan" required="required" /><br>
+        <input id="number_vmail_messages" class="Name" type="text" name="number_vmail_messages" placeholder="number_vmail_messages" required="required" /><br>
+        <input id="total_day_minutes" class="Name" type="text" name="total_day_minutes" placeholder="total_day_minutes" required="required" /><br>
+        <input id="total_day_calls" class="Name" type="text" name="total_day_calls" placeholder="total_day_calls" required="required" /><br>
+        <input id="total_day_charge" class="Name" type="text" name="total_day_charge" placeholder="total_day_charge" required="required" /><br>
+        <input id="total_eve_minutes" class="Name" type="text" name="total_eve_minutes" placeholder="total_eve_minutes" required="required" /><br>
+        <input id="total_eve_calls" class="Name" type="text" name="total_eve_calls" placeholder="total_eve_calls" required="required" /><br>
+        <input id="total_eve_charge" class="Name" type="text" name="total_eve_charge" placeholder="total_eve_charge" required="required" /><br>
+        <input id="total_night_minutes" class="Name" type="text" name="total_night_minutes" placeholder="total_night_minutes" required="required" /><br>
+        <input id="total_night_calls" class="Name" type="text" name="total_night_calls" placeholder="total_night_calls" required="required" /><br>
+        <input id="total_night_charge" class="Name" type="text" name="total_night_charge" placeholder="total_night_charge" required="required" /><br>
+        <input id="total_intl_minutes" class="Name" type="text" name="total_intl_minutes" placeholder="total_intl_minutes" required="required" /><br>
+        <input id="total_intl_calls" class="Name" type="text" name="total_intl_calls" placeholder="total_intl_calls" required="required" /><br>
+        <input id="total_intl_charge" class="Name" type="text" name="total_intl_charge" placeholder="total_intl_charge" required="required" /><br>
+        <input id="number_customer_service_calls" class="Name" type="text" name="number_customer_service_calls" placeholder="number_customer_service_calls" required="required" /><br>   
+        <button id="Predict_Button" class="Predict_Button" type="submit" class="btn btn-primary btn-block btn-large">Predict</button>
+    </form>
+    <label id="Prediction_Here" class="Prediction_Here">{{ Prediction_Here }}</label>
+
+ </div>
+
+ <script>
+    document.getElementById("pasteButton").addEventListener("click", function() {
+        var rowValues = document.getElementById("pasteData").value.split("\t"); // Get the pasted row values and split them by tab
+
+        var inputFields = document.querySelectorAll("#predictionForm input[type='text']");
+        for (var i = 0; i < inputFields.length; i++) {
+            inputFields[i].value = rowValues[i];
+        }
+    });
+ </script>
+</body>
+</html>
