@@ -1,8 +1,8 @@
 import React from 'react'
 
-function Header1({children}) {
+function Header1({children, className}) {
     return (
-        <h1>{children}</h1>
+        <h1 className={className}>{children}</h1>
     )
 }
 

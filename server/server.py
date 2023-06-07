@@ -13,6 +13,11 @@ app = Flask(__name__, static_folder='static')
 def Home():
     return "Welcome!"
 
+@app.route("/members")
+def members():
+    members = {"members" : ["mem1", "mem2"]}
+    return members
+
 @app.route("/predict", methods = ["POST","GET"])
 def predict():
     if request.method == "POST":
@@ -20,7 +25,8 @@ def predict():
         features = [np.array(features)]
         prediction = churnprediction.predict_proba(features)[0][1]
         print("Prediction: ", prediction)
-        return render_template("client/public/index.html", Prediction_Here="The customer churn probability is: {}".format(prediction))
+        #return render_template("client/public/index.html", Prediction_Here="The customer churn probability is: {}".format(prediction))
+        return "Predict"
     else:
         return "Method Not Allowed"
     
