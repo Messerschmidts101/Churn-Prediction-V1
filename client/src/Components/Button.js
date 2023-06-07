@@ -1,8 +1,8 @@
 import React from 'react'
 
-function Button({children, theme = 'primary', onClick}) {
+function Button({children, theme = 'primary', className, onClick}) {
     return (
-        <button className={'btn btn-' +theme} onClick={onClick}>{children}</button>
+        <button className={'btn btn-' +theme + " " + className} onClick={onClick}>{children}</button>
     )
 }
 
