@@ -2,12 +2,17 @@ from flask import Flask,request,jsonify,render_template,session,send_from_direct
 import joblib
 # import pandas as pd
 import numpy as np
+from flask_sqlalchemy import SQLAlchemy
+from .model import Customer
 
 # Load classifier
 churnprediction = joblib.load('model/churnprediction.pkl')
 
 # Create flask app
 app = Flask(__name__, static_folder='static')
+app.comfig["SQLALCHEMY_DATABASE_URI"] = 'sqlite://database.db'
+db = SQLAlchemy()
+db.init_app(app=app)
 
 @app.route("/")
 def Home():
@@ -18,8 +23,8 @@ def members():
     members = {"members" : ["mem1", "mem2"]}
     return members
 
-@app.route("/predict", methods = ["POST","GET"])
-def predict():
+@app.route("/prediction", methods = ["POST","GET"])
+def prediction():
     if request.method == "POST":
         features = [float(x) for x in request.form.values()]
         features = [np.array(features)]
