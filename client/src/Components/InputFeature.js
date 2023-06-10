@@ -1,8 +1,8 @@
 import React from "react";
 
-function InputFeature({children, className, feature, required, key}) {
+function InputFeature({id, children, className, feature, required, key}) {
     return <input
-        id={feature}
+        id={id}
         className={className}
         feature={feature}
         required={required}
