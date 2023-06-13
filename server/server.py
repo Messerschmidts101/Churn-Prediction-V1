@@ -3,6 +3,7 @@ import joblib
 # import pandas as pd
 import numpy as np
 from flask_sqlalchemy import SQLAlchemy
+import sys
 # from .models import Customer
 
 # Load classifier
@@ -16,15 +17,17 @@ def Home():
 
 @app.route("/prediction", methods = ["POST","GET"])
 def prediction():
+    for x in request.form.values():
+        print("asdf: ", x, file=sys.stderr)
     if request.method == "POST":
         features = [float(x) for x in request.form.values()]
         features = [np.array(features)]
-        prediction = churnprediction.predict_proba(features)[0][1]
-        print("features: ",features)
-        print("Prediction: ", prediction)
+        # prediction = churnprediction.predict_proba(features)[0][1]
+        # print("features: ",features)
+        # print("Prediction: ", prediction)
 
         #return render_template("client/public/index.html", Prediction_Here="The customer churn probability is: {}".format(prediction))
-        return prediction
+        return "prediction"
     else:
         return "Method Not Allowed"
 
