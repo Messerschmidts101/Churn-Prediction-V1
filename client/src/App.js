@@ -8,6 +8,7 @@ import InputFeature from './Components/InputFeature'
 import { useState, useEffect } from 'react'
 import Highcharts from 'highcharts'
 import HighchartsReact from 'highcharts-react-official'
+import './CSS/main.css'
 
 function App() {
 
@@ -73,7 +74,7 @@ function App() {
                     <Button theme={"primary"} className={"d-flex ms-3 h-50 inline"} children={"Scatter Values"} onClick={handleScatter} />
                 </div>
                 <Header2 className={"mt-3"} children={"...Or input below each value individually"}></Header2>
-                <Form id={"predictionForm"} className={"form row"} action={"/"} method={"post"}>
+                <Form id={"predictionForm"} className={"form row"} action={"prediction"} method={"post"}>
                     {/* <Input id={"state"} className={"form-control"} type={"text"} placeholder={"state"} required={"required"} />
                     <Label forLabel={"state"} children={"State"} /> */}
                     <Button theme={"primary"} className={"my-3"} children={"Predict Churn"} onClick={handleChurn} />
