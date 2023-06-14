@@ -1,9 +1,10 @@
-from flask import Flask,request,jsonify,render_template,session,send_from_directory
+import re
+from flask import Flask,request,jsonify,redirect,session,send_from_directory
+from flask_cors import CORS
 import joblib
 # import pandas as pd
 import numpy as np
 from flask_sqlalchemy import SQLAlchemy
-import sys
 # from .models import Customer
 
 # Load classifier
@@ -11,26 +12,33 @@ churnprediction = joblib.load('model/churnprediction.pkl')
 
 # Create flask app
 app = Flask(__name__, static_folder='static')
+CORS(app)
+
 @app.route("/")
 def Home():
-    return "Welcome!"
+    return "Wilcommen!"
 
-@app.route("/prediction", methods = ["POST","GET"])
-def prediction():
-    for x in request.form.values():
-        print("asdf: ", x, file=sys.stderr)
-    if request.method == "POST":
-        features = [float(x) for x in request.form.values()]
-        features = [np.array(features)]
-        # prediction = churnprediction.predict_proba(features)[0][1]
-        # print("features: ",features)
-        # print("Prediction: ", prediction)
+@app.route("/predict", methods = ["POST","GET"])
+def predict():
+    feature_post = request.get_json()
+    if type(feature_post) == dict:
+        features_list = feature_post["feature_post"]
+        features = [{"name": feature["name"], "value": float(feature["value"])} for feature in features_list]
 
-        #return render_template("client/public/index.html", Prediction_Here="The customer churn probability is: {}".format(prediction))
-        return "prediction"
+        features = [np.array([float(feature["value"]) for feature in features_list])]
+        prediction = churnprediction.predict_proba(features)[0][1]
+        print(" +++ === --- DEBUGGER LOGS START --- === +++  ")
+        print("Features: ", re.sub(r'  ', '', str(features)))
+        print("Prediction: ", prediction)
+        print(" +++ === --- DEBUGGER LOGS END --- === +++  ")
+
+        return jsonify(prediction)
     else:
-        return "Method Not Allowed"
+        return "Method not Allowed"
 
+@app.route("/prediction", methods=["GET"])
+def prediction():
+    return
 
 @app.route("/feature_names", methods=["GET"])
 def feature_names():
