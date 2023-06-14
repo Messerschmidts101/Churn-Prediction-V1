@@ -1,3 +1,4 @@
+import csv
 from itertools import product
 import json
 import joblib
@@ -58,8 +59,19 @@ def get_class_weights(df):
         1: total_samples / (2 * imbalance_ratio[1, 1])
     }
 
+def save_selected_features_text(selected_features, file_path):
+    with open(file_path, 'w') as file:
+        for feature in selected_features:
+            file.write(feature + '\n')
 
-def rfa_bagging_rfecv(x_train, x_test, y_train, y_test, param_grid=None, base_classifier=None, bagging_params=None, cv=5, step=10):
+def save_as_csv(ranking, support, feature_names, filename):
+    with open(filename, 'w', newline='') as csvfile:
+        writer = csv.writer(csvfile)
+        writer.writerow(['Feature', 'Ranking', 'Support'])
+        for feature, rank, sup in zip(feature_names, ranking, support):
+            writer.writerow([feature, rank, sup])
+
+def rfa_bagging_rfecv(df, x_train, x_test, y_train, y_test, param_grid=None, base_classifier=None, bagging_params=None, cv=5, step=10):
     
     class_weights = compute_class_weight(class_weight='balanced', classes=np.unique(y_train), y=y_train)
     
@@ -120,18 +132,21 @@ def rfa_bagging_rfecv(x_train, x_test, y_train, y_test, param_grid=None, base_cl
     '''
 
     # Perform RFECV to select the most relevant features
-    with tqdm(total=1, desc="Feature Selection") as pbar:
+    with tqdm(total=x_train.shape[1], desc="Feature Selection") as pbar:
         selector = RFECV(estimator=best_base_classifier, step=step, cv=StratifiedKFold(cv), scoring='accuracy', verbose=2)
         selector.fit(x_train, y_train)
         x_train_selected = selector.transform(x_train)
         selected_indices = selector.support_
-
-        # Get the feature names corresponding to the selected indices
-        feature_names = x_train.columns[selected_indices]
-
         # Save the feature names to a file
-        save_to_json(feature_names.tolist())
-
+        #save_to_json(feature_names)
+        'Save the ranking for the top ,5,10,15,20 then automate model training for each feature set'
+        'Use grid_search for the following feature set'
+        #save_selected_features_text(feature_names, 'selected_features.txt')
+        feature_names = df.columns.tolist()
+        ranking = selector.ranking_
+        support = selector.support_
+        filename = 'model/data/feature_ranking_support.csv'
+        save_as_csv(ranking, support, feature_names, filename)
         pbar.update(1)
     
     ada_model = AdaBoostClassifier(base_estimator=best_base_classifier, n_estimators=100)

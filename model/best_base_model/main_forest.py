@@ -2,13 +2,12 @@ import numpy as np
 from scipy.stats import ttest_ind
 from sklearn.model_selection import train_test_split
 from dataset import load_dataset
-from experiment import generate_features, print_corr
+from gen_feat import generate_features, print_corr
 from rfa_final import rfa_bagging_rfecv
 
 def transform(df):
     target = df['churn']
     features = df.drop('churn', axis=1)
-
     # Splitting the data into training and testing sets
     x_train, x_test, y_train, y_test = train_test_split(features, target, test_size=0.2, random_state=42)
     #print(features.columns)
@@ -39,7 +38,8 @@ def preprocess_numeric_features(x_train, x_test):
     return x_train_numeric, x_test_numeric
 
 def run():
-    df, x_train, x_test, y_train, y_test = load_dataset()
+    df = load_dataset(split=False)
+    print(df)
     df = generate_features(df)
     print_corr(df)
     
@@ -47,7 +47,7 @@ def run():
     # Select only the numeric features
     x_train_numeric, x_test_numeric = preprocess_numeric_features(x_train, x_test)
     #Training and Evaluation
-    accuracy = rfa_bagging_rfecv(x_train_numeric, x_test_numeric, y_train, y_test)
+    accuracy = rfa_bagging_rfecv(df, x_train_numeric, x_test_numeric, y_train, y_test, step=5, cv =10)
     # Print the accuracy
     print("Accuracy:", accuracy)
 
