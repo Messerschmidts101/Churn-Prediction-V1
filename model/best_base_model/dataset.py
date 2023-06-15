@@ -1,6 +1,8 @@
 import numpy
 import pandas as pd
 from sklearn.calibration import LabelEncoder
+from imblearn.over_sampling import SMOTE
+from imblearn.over_sampling import RandomOverSampler
 from sklearn.model_selection import train_test_split
 
 
@@ -169,18 +171,25 @@ def transform(df, binned = False, split = True):
         raise KeyError("'churn' column not found in the DataFrame.")
 
     # Perform one-hot encoding on categorical variables
-    target = df['churn']
     one_hot_encoder(df)
+    target = df['churn']
+    #SMOTE Samplter to balance the
+    smote = SMOTE()
+    x_resampled, y_resampled = smote.fit_resample(df[[col for col in df.columns if col !='churn']], target)
+    # Convert the resampled data back into a DataFrame
+    resampled_df = pd.DataFrame(x_resampled, columns=df.columns[:-1])  # Assuming the last column is the target column
+    resampled_df['churn'] = y_resampled
 
     if binned:
         # Perform binning and convert numeric values to binary format
         df = binning_and_encode(df, num_bins=5)
 
     if split:
+        #print(sorted(Counter(y_resampled).items()),y_resampled.shape)
         # Split the data into training and testing sets
-        return df, *train_test_split(df, target, test_size=0.2, random_state=42)
+        return df, *train_test_split(x_resampled, y_resampled, test_size=0.2, random_state=42)
 
-    return df
+    return resampled_df
 
 
 
@@ -249,16 +258,16 @@ def load_dataset(desc=False, bin=False, transformed=True, split=True) -> tuple[p
     if desc:
         print_desc(df)
     if transformed == True:
-        transform(df, bin, split)
+        return transform(df, bin, split)
     return df
 
 
 def main():
     import numpy as np
-    #df, x_train, x_test, y_train, y_test  =  load_dataset()
-    df = pd.read_csv('model/data/train.csv')
+    df, x_train, x_test, y_train, y_test  =  load_dataset()
+    print(df['churn'])
+
+    #df = pd.read_csv('model/data/train.csv')
     #print(df.select_dtypes(include='object').columns)
-    column = 'area_code'
-    print(df[column].nunique())
 if __name__ == '__main__':
     main()

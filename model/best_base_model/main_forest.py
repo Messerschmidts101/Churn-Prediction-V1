@@ -1,9 +1,10 @@
 import numpy as np
+import pandas as pd
 from scipy.stats import ttest_ind
 from sklearn.model_selection import train_test_split
 from dataset import load_dataset
 from gen_feat import generate_features, print_corr
-from rfa_final import rfa_bagging_rfecv
+from rfa_x import rfa_bagging_rfecv
 
 def transform(df):
     target = df['churn']
@@ -25,29 +26,35 @@ def sig_dif(churned_accounts, non_churned_accounts):
         print(f"P-Value: {p_value}")
         print("\n")
 
-
-def preprocess_numeric_features(x_train, x_test):
+def preprocess_numeric_features(df):
     # Select only the numeric features
-    x_train_numeric = x_train.select_dtypes(include='number')
-    x_test_numeric = x_test.select_dtypes(include='number')
+    df = df.select_dtypes(include='number')
+    column_names = df.columns.tolist()
 
     # Replace infinity and very large values with a finite number
-    x_train_numeric = np.nan_to_num(x_train_numeric, nan=0, posinf=1e12, neginf=-1e12)
-    x_test_numeric = np.nan_to_num(x_test_numeric, nan=0, posinf=1e12, neginf=-1e12)
+    df = np.nan_to_num(df, nan=0, posinf=1e12, neginf=-1e12)
 
-    return x_train_numeric, x_test_numeric
+    # Convert the modified NumPy array back to a pandas DataFrame with original column names
+    df = pd.DataFrame(df, columns=column_names)
+
+    return df
+
 
 def run():
     df = load_dataset(split=False)
-    print(df)
-    df = generate_features(df)
+    df = generate_features(df, reduce_collinearity=True)
     print_corr(df)
     
+    df = preprocess_numeric_features(df)
+    df.to_csv('model/data/added_feats.csv', index=False)
+
     df, x_train, x_test, y_train, y_test = transform(df)
     # Select only the numeric features
-    x_train_numeric, x_test_numeric = preprocess_numeric_features(x_train, x_test)
+    print(df.shape, x_train.shape, x_test.shape, y_train, y_test.shape)
+
     #Training and Evaluation
-    accuracy = rfa_bagging_rfecv(df, x_train_numeric, x_test_numeric, y_train, y_test, step=5, cv =10)
+    accuracy = rfa_bagging_rfecv(df, x_train, x_test, y_train, y_test, step=5, cv=10)
+
     # Print the accuracy
     print("Accuracy:", accuracy)
 
