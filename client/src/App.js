@@ -22,15 +22,7 @@ function App() {
             }
         )
     }, [])
-    let [feature_post, setFeaturePost] = useState([{}])
     let [series, setSeries] = useState([{}])
-    // useEffect(() => {
-    //     fetch("http://localhost:8080/prediction", {
-    //         method: 'GET',
-    //         mode: 'cors',
-    //         body: JSON.stringify()
-    //     })
-    // }, [])
 
     const handleScatter = () => {
         var rowValues = document.getElementById("pasteData").value.split("\t"); // Get the pasted row values and split them by tab
@@ -40,28 +32,43 @@ function App() {
             inputFields[i].value = rowValues[i];
         }
     }
-    const handleChurn = () => {
-        let feature_post_temp = []
-        let inputFields = document.querySelectorAll("[type=number]");
-        for(let i = 0; i < inputFields.length; i++) {
-            let nameID = inputFields[i].id.split(" ")[0]
-            let value = inputFields[i].value
-            feature_post_temp.push({
-                nameID: value
-            })
-        }
-        setFeaturePost(feature_post_temp)
-
-        fetch("http://localhost:8080/prediction", {
-            method: "POST",
-            mode: "cors",
-            body: JSON.stringify(feature_post)
-        })
-    }
     const handleClear = () => {
         feature_list.forEach((feature) => {
             document.querySelector("#"+ feature.name).value = ""
         })
+    }
+    const handleChurn = () => {
+        let feature_post = []
+        let inputFields = document.querySelectorAll("[type=number]");
+        for(let i = 0; i < inputFields.length; i++) {
+            let name = inputFields[i].id.split(" ")[0]
+            let value = inputFields[i].value
+            feature_post.push({
+                "name": name,
+                "value": value
+            })
+        }
+        console.log("feature_post: ", feature_post)
+
+        fetch("http://localhost:8080/predict", {
+            method: "POST",
+            mode: "cors",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ feature_post })
+        }).then(
+            res => res.json()
+        ).then(
+            data => {
+                console.log(data)
+                setSeries(data)
+            }
+        ).catch(
+            e => console.error("No prediction yet\n", e)
+        )
+        
+        // fetch("http://localhost:8080/")
     }
 
     const options = {
@@ -93,7 +100,7 @@ function App() {
                     <Button className={"d-flex inline scatter-btn"} children={"Scatter Values"} onClick={handleScatter} />
                 </div>
                 <Header2 className={"mt-3"} children={"...Or input below each value individually"}></Header2>
-                <Form id={"predictionForm"} className={"form row"} action={"prediction"} method={"post"}>
+                <div id={"predictionForm"} className={"form row"}>
                     {/* <Input id={"state"} className={"form-control"} type={"text"} placeholder={"state"} required={"required"} />
                     <Label forLabel={"state"} children={"State"} /> */}
                     <Button theme={"primary"} className={"my-3"} children={"Predict Churn"} onClick={handleChurn} />
@@ -103,7 +110,7 @@ function App() {
                             <Label forLabel={feature.name } children={feature.name} />
                         </div>
                     })}
-                </Form>
+                </div>
                 <Button theme={"outline-danger"} className={"my-3"} children={"Clear"} onClick={handleClear}></Button>
             </div>
             <div className='container'>
