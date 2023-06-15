@@ -1,43 +1,44 @@
 """
 ====================================================== As of 15th June 2023 ====================================================== 
-
-[4250 rows x 28 columns]
-[('no', 3652), ('yes', 3652)] (7304,)
+Best hyperparameters: {'max_depth': 20, 'n_estimators': 400}
+Best score: 0.9957203499068401
+classifier:  RandomForestClassifier(criterion='entropy', max_depth=20, n_estimators=400)
 Confusion matrix: 
  [[741   5]
- [ 81 634]]
-Precision:  0.9921752738654147
-Recall:  0.8867132867132868
-F-BETA:  0.9059731351814805
+ [  2 713]]
+Precision:  0.9930362116991643
+Recall:  0.9972027972027973
+F-BETA:  0.9963666852990497
 Feature importance:
-total_local_charge :  0.1602633870050624
-number_customer_service_calls :  0.14679281926504045
-international_plan :  0.09770775175660167
-total_day_minutes :  0.07229426472201343
-total_day_charge :  0.06929705147240214
-total_minutes :  0.06912151217841431
-ratio_calls :  0.03144480774760964
-number_vmail_messages :  0.02621926081021091
-voice_mail_plan :  0.025094090972000972
-total_intl_minutes :  0.024788538978753726
-total_intl_calls :  0.024679050110830866
-total_intl_charge :  0.024209813088620545
-ratio_charge :  0.021266208533059036
-total_eve_minutes :  0.02071971798837724
-ratio_minutes :  0.01902244110453981
-total_eve_charge :  0.018441571553882583
-avg_day_minutes :  0.017739259217215253
-total_night_charge :  0.015531989183999334
-total_night_minutes :  0.015481571129488782
-avg_night_minutes :  0.014220099538321186
-total_calls :  0.012386419170255836
-state :  0.012171019038854312
-total_night_calls :  0.01215403018072574
-avg_eve_minutes :  0.012004999857588947
-account_length :  0.011963783768200138
-total_day_calls :  0.01146998174625909
-total_eve_calls :  0.010790436899169045
-area_code :  0.002724122982502676
+total_local_charge :  0.13664244645999618
+number_customer_service_calls :  0.13362332851197506
+international_plan :  0.08493836066204685
+total_day_charge :  0.06544790925334067
+total_minutes :  0.06417529140360671
+total_day_minutes :  0.06297302722156543
+ratio_calls :  0.03347293763206801
+total_intl_minutes :  0.027246395345533508
+total_intl_charge :  0.025560287874693274
+ratio_charge :  0.025258110762905447
+number_vmail_messages :  0.02504395138183666
+ratio_minutes :  0.024261826311373115
+total_intl_calls :  0.02314232866931457
+total_eve_charge :  0.02312890598071331
+total_eve_minutes :  0.02214924991000802
+avg_day_minutes :  0.021412780555232068
+total_night_charge :  0.019986879428898593
+total_night_minutes :  0.019456798258613146
+voice_mail_plan :  0.0192379081829739
+total_eve_calls :  0.0180033842406327
+total_calls :  0.017956802498495582
+avg_night_minutes :  0.017796267638201958
+state :  0.01772313888332333
+total_night_calls :  0.016865893961226248
+avg_eve_minutes :  0.01667829734849175
+total_day_calls :  0.01659812045015082
+account_length :  0.01648154063174197
+area_code :  0.004737830541040989
+Classes:  ['no' 'yes']
 
 Print mapping for column:  state  |||  {'OH': 0, 'NJ': 1, 'OK': 2, 'MA': 3, 'MO': 4, 'LA': 5, 'WV': 6, 'IN': 7, 'RI': 8, 'IA': 9, 'MT': 10, 'NY': 11, 'ID': 12, 'VA': 13, 'TX': 14, 'FL': 15, 'CO': 16, 'AZ': 17, 'SC': 18, 'WY': 19, 'HI': 20, 'NH': 21, 'AK': 22, 'GA': 23, 'MD': 24, 'AR': 25, 'WI': 26, 'OR': 27, 'MI': 28, 'DE': 29, 'UT': 30, 'CA': 31, 
 'SD': 32, 'NC': 33, 'WA': 34, 'MN': 35, 'NM': 36, 'NV': 37, 'DC': 38, 'VT': 39, 'KY': 40, 'ME': 41, 'MS': 42, 'AL': 43, 'NE': 44, 'KS': 45, 'TN': 46, 'IL': 47, 'PA': 48, 'CT': 49, 'ND': 50}
@@ -180,7 +181,7 @@ def fitChurn():
     '''=========================I.F. DATA PREPARATION: TRAIN/TEST SPLIT========================='''
     x_train, x_test, y_train, y_test = train_test_split(x_resampled, y_resampled, test_size=.20, random_state=123)
     '''=========================II. TRAINING========================='''
-    classifier = RandomForestClassifier(n_estimators=400, max_depth=10, criterion="entropy")
+    classifier = RandomForestClassifier(n_estimators=400, max_depth=20, criterion="entropy")
     classifier.fit(x_train, y_train)
     '''=========================III. TESTING AND EVALUATION========================='''
     # Predicting the test set result
