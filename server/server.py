@@ -2,7 +2,7 @@ import re
 from flask import Flask,request,jsonify,redirect,session,send_from_directory
 from flask_cors import CORS
 import joblib
-# import pandas as pd
+import pandas as pd
 import numpy as np
 from flask_sqlalchemy import SQLAlchemy
 # from .models import Customer
@@ -36,9 +36,18 @@ def predict():
     else:
         return "Method not Allowed"
 
-@app.route("/prediction", methods=["GET"])
-def prediction():
-    return
+@app.route("/predict_dataset", methods=["POST","GET"])
+def predict_dataset():
+    if request.method == 'POST':
+        print('+++Debugging+++')
+        dataset = request.files.get("data")
+        # print(dataset)
+        # for file in dataset:
+        #     print(file.filename)
+        #     print(file)
+        return {'message': 'File uploaded successfully'}
+    else:
+        return {"mesaajii":"Please fix"}
 
 @app.route("/feature_names", methods=["GET"])
 def feature_names():
