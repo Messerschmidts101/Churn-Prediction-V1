@@ -1,3 +1,4 @@
+import io
 import re
 from flask import Flask,request,jsonify,redirect,session,send_from_directory
 from flask_cors import CORS
@@ -38,17 +39,15 @@ def predict():
 
 @app.route("/predict_dataset", methods=["POST","GET"])
 def predict_dataset():
-    if request.method == 'POST':
-        print('+++Debugging+++')
-        dataset = request.files.values()
-        print("Number of files:", len(dataset))
-        for file in dataset:
-            print("Filename:", file.filename)
-            df = pd.read_csv(file)
-            print(df)
-        return {'message': 'File uploaded successfully'}
-    else:
-        return {"mesaajii":"Please fix"}
+    file_data = request.data
+    # Convert the file_data into a pandas DataFrame
+    df = pd.read_csv(io.BytesIO(file_data))
+    # Process the DataFrame as needed
+    print('Data shape:', df.shape)
+    print('Data columns:', df.columns)
+    print('Data head:', df.head())
+
+    return {'message': 'File uploaded successfully'}
 
 @app.route("/feature_names", methods=["GET"])
 def feature_names():
@@ -135,7 +134,7 @@ def feature_names():
     return features
 
 if __name__ == "__main__":
-    app.run(debug=True, host='0.0.0.0',port=8080)
+    app.run(debug=True, host='localhost',port=8080)
 
 """
 predict([[0,26,161.6],[1,0,243.4],[1,0,299.4]])
