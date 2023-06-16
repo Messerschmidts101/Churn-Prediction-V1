@@ -8,11 +8,12 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 from dataset import load_dataset
+from rfa_final import load_feats
 
 def print_column_info(df):
     for i, col in enumerate(df.columns):
         print(f"{i} , {col}")
-def corr_coef_ranking(df):
+def heatmap_corr(df):
     heat = df.corr()
     plt.figure(figsize=[16,8])
     plt.title("Correlation between numerical features", size = len(df), pad = 20, color = '#8cabb6')
@@ -906,9 +907,12 @@ def feat_generator(df):
     return df
 
 
-def reduce_multicollinearity(df, threshold=0.9):
+def reduce_multicollinearity(df, feat=None, threshold=0.9):
     # Calculate correlation matrix
-    corr_matrix = df.select_dtypes(include='number').corr().abs()
+    if feat is None:
+        corr_matrix = df.select_dtypes(include='number').corr().abs()
+    else:
+        corr_matrix = df[feat].select_dtypes(include='number').corr().abs()
 
     # Create a mask to identify highly correlated features
     mask = np.triu(np.ones_like(corr_matrix, dtype=bool))
@@ -920,16 +924,23 @@ def reduce_multicollinearity(df, threshold=0.9):
     features_to_remove = set()
     for feature_i, feature_j in zip(*correlated_features.nonzero()):
         if feature_i != feature_j:
+            if feat is None:
+                column_i = df.columns[feature_i]
+                column_j = df.columns[feature_j]
+            else:
+                column_i = feat[feature_i]
+                column_j = feat[feature_j]
             # Add feature with higher correlation to removal set
             if corr_matrix.iloc[feature_i, feature_j] > corr_matrix.iloc[feature_j, feature_i]:
-                features_to_remove.add(df.columns[feature_i])
+                features_to_remove.add(column_i)
             else:
-                features_to_remove.add(df.columns[feature_j])
+                features_to_remove.add(column_j)
 
     # Remove the highly correlated features from the dataframe
     df = df.drop(features_to_remove, axis=1)
     print(features_to_remove)
     return df
+
 def print_corr(df):
     print("Correlation Coefficient of all the Features")
     corr = df.corr()
@@ -940,12 +951,39 @@ def print_corr(df):
     top_corr_features = a.append(b)
     print(top_corr_features)
 
-def generate_features(df):
+def generate_features(df, feat=None, threshold=0.9, reduce_collinearity=False, heatmap = False):
+    """
+    Generate the feature matrix by adding additional features, selecting specific features, and reducing multicollinearity.
+
+    Args:
+        df (pandas.DataFrame): The input DataFrame.
+        feat (list, optional): List of feature names to select. Default is None.
+        threshold (float, optional): Threshold value for multicollinearity. Default is 0.9.
+        reduce_collinearity (bool, optional): Whether to reduce multicollinearity. Default is False.
+
+    Returns:
+        pandas.DataFrame: The generated feature matrix.
+
+    """
+    # Add additional features
     added_features(df)
     df = feat_generator(df)
-    df_reduced = reduce_multicollinearity(df, threshold = .9)
-    corr_coef_ranking(df_reduced)
+    
+    if feat is not None and not reduce_collinearity:
+        # Select specific features
+        df_reduced = df.loc[:, df.columns.isin(feat + ['churn'])]
+    elif reduce_collinearity:
+        # Reduce multicollinearity
+        df_reduced = reduce_multicollinearity(df, feat, threshold)
+    else:
+        # Return the original DataFrame
+        df_reduced = df
+    if heatmap:
+        # Perform correlation coefficient ranking
+        heatmap_corr(df_reduced)
+    
     return df_reduced
+
 def main():
     df, x_train, x_test, y_train, y_test = load_dataset()
     #print(df)
