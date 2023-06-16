@@ -40,11 +40,12 @@ def predict():
 def predict_dataset():
     if request.method == 'POST':
         print('+++Debugging+++')
-        dataset = request.files.get("data")
-        # print(dataset)
-        # for file in dataset:
-        #     print(file.filename)
-        #     print(file)
+        dataset = request.files.values()
+        print("Number of files:", len(dataset))
+        for file in dataset:
+            print("Filename:", file.filename)
+            df = pd.read_csv(file)
+            print(df)
         return {'message': 'File uploaded successfully'}
     else:
         return {"mesaajii":"Please fix"}
