@@ -5,36 +5,33 @@
             box-sizing: border-box;
     padding: 0;
     margin: auto;
-}
-
-body {
-    padding-top: 130px;
+    --dark-green: #14342bff;
+    --asparagus: #60935dff;
+    --old-gold: #bab700ff;
+    --celadon: #bbdfc5ff;
+    --brilliant-rose: #ff579fff;
 }
 
 .nav {
-    background-color: #F2F2F2;
+    background-color: var(--asparagus);
     padding-left: 45px;
-    height: 100px;
-    display: block;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    margin-bottom: 10px;
-    z-index: 9999;
 }
 
 .nav-heading {
     font-size: 40px;
     font-weight: bold;
     margin: 0;
+    color: var(--dark-green);
     padding-top: 5px;
-    margin-bottom: -15px;
 }
 
 .nav-subheading {
     font-size: 23.2px;
     margin: 0;
+}
+
+.nav-item-custom {
+    color: white;
 }
 
 .label1 {
