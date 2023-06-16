@@ -2,7 +2,7 @@ import React from 'react'
 
 function NotFoundPage() {
     return (
-        <Header1 className='display-1'></Header1>
+        <Header1 className='display-1'> 404 PAGE DNE</Header1>
     )
 }
 
