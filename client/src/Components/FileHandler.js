@@ -1,16 +1,43 @@
 import React from 'react'
 import Papa from 'papaparse'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import Input from './Input'
 import Header2 from './Header2'
 
 function FileHandler() {
 
-    let [file, setFile] = useState(null)
     const [error, setError] = useState("")
     const [data, setData] = useState([])
     const allowedExtensions = ["csv"];
-    const handleParse = () => {
+    const handleUpload = (file) => {
+        fetch("http://localhost:8080/predict_dataset", {
+            method: "POST",
+            mode: 'cors',
+            headers: {
+                "Content-Type": "text/csv"
+            },
+            body: file
+        }).then(
+            data => console.log(data)
+        )
+    }
+    const handleParse = (csv) => {
+        Papa.parse(csv, {
+            header: true,
+            complete: (results) => {
+                const parsedData = results?.data;
+                console.log(parsedData);
+                // Process the parsed data as needed
+                const columns = Object.keys(parsedData[0]);
+                setData(columns);
+            },
+            error: (error) => {
+                console.error('CSV parsing error:', error);
+                setError('Error parsing CSV');
+            }
+        });
+    }
+    const handleRead = (file) => {
  
         // If user clicks the parse button without
         // a file we show a error
@@ -22,11 +49,9 @@ function FileHandler() {
  
         // Event listener on reader when the file
         // loads, we parse it and set the data.
-        reader.onload = async ({ target }) => {
-            const csv = Papa.parse(target.result, { header: true });
-            const parsedData = csv?.data;
-            const columns = Object.keys(parsedData[0]);
-            setData(columns);
+        reader.onload = ({ target }) => {
+            handleParse(target.result)
+            handleUpload(target.result)
         };
         reader.readAsText(file);
     };
@@ -38,26 +63,15 @@ function FileHandler() {
             // Check the file extensions, if it not
             // included in the allowed extensions
             // we show the error
-            const fileExtension = inputFile?.type.split("/")[1];
+            const fileExtension = inputFile?.name.split(".").pop();
             if (!allowedExtensions.includes(fileExtension)) {
                 setError("Please input a csv file");
                 return;
             }
  
             // If input type is correct set the state
-            setFile(inputFile);
+            handleRead(inputFile)
         }
-        fetch("http://localhost:8080/predict_dataset", {
-            method: "POST",
-            mode: 'cors',
-            headers: {
-                "Content-Type": "text/csv"
-            },
-            body: file
-        }).then(
-            data => console.log(data)
-        )
-
     };
     return (
         <>
@@ -68,7 +82,9 @@ function FileHandler() {
             </Header2>
             <Input id={"file"} name={"file"} theme={"primary"} className={""} onChange={handleFileChange} type="file" placeholder={"Change File"}></Input>
             <div>
-                {error ? error : data.map((col,idx) => <div key={idx}>{col}</div>)}
+                { 
+                    error ? error : "" /* data.map((col,idx) => <div key={idx}>{col}</div>) */
+                }
             </div>
         </>
     )

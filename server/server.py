@@ -1,3 +1,4 @@
+import io
 import re
 from flask import Flask,request,jsonify,redirect,session,send_from_directory
 from flask_cors import CORS
@@ -38,17 +39,41 @@ def predict():
 
 @app.route("/predict_dataset", methods=["POST","GET"])
 def predict_dataset():
-    if request.method == 'POST':
-        print('+++Debugging+++')
-        dataset = request.files.values()
-        print("Number of files:", len(dataset))
-        for file in dataset:
-            print("Filename:", file.filename)
-            df = pd.read_csv(file)
-            print(df)
-        return {'message': 'File uploaded successfully'}
-    else:
-        return {"mesaajii":"Please fix"}
+    file_data = request.data
+    # Convert the file_data into a pandas DataFrame
+    df = pd.read_csv(io.BytesIO(file_data))
+    # Process the DataFrame as needed
+    # df = df.drop("churn", axis=1)
+    prediction = pd.DataFrame(churnprediction.predict_proba(df))[1].tolist()
+    print(" +++ === --- DEBUGGER LOGS START --- === +++  ")
+    print('Data shape:', df.shape)
+    print('Data columns:', df.columns)
+    print('Data head:', df.head())
+    print("Prediction ",prediction.sort(reverse=True))
+    print(" +++ === --- DEBUGGER LOGS END --- === +++  ")
+
+    # return [{"name": i, "data": each} for i, each in enumerate(prediction)]
+    return { "data": prediction }
+
+@app.route("/predict_dataset_feature", methods=["POST","GET"])
+def predict_dataset_feature():
+    file_data = request.data
+    # Convert the file_data into a pandas DataFrame
+    df = pd.read_csv(io.BytesIO(file_data))
+    # Process the DataFrame as needed
+    # df = df.drop("churn", axis=1)
+    # prediction = pd.DataFrame(churnprediction.predict_proba(df))[1].tolist()
+    df['prediction'] = pd.DataFrame(churnprediction.predict_proba(df))[1].tolist()
+    df = df.sort_values('prediction', ascending=False).reset_index(drop=True)
+    print(" +++ === --- DEBUGGER LOGS START --- === +++  ")
+    print('Data shape:', df.shape)
+    print('Data columns:', df.columns)
+    print('Data head:', df.head())
+    # sprint("Prediction ",prediction.sort(reverse=True))
+    print(" +++ === --- DEBUGGER LOGS END --- === +++  ")
+
+    # return [{"name": i, "data": each} for i, each in enumerate(prediction)]
+    return df.to_json()
 
 @app.route("/feature_names", methods=["GET"])
 def feature_names():
