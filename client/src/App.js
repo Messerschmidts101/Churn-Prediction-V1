@@ -14,6 +14,7 @@ function App() {
         <main className='main'>
             <Nav theme="nav" />
             <Routes>
+                <Route path='/' element={ <Home />} />
                 <Route path='/single_customer' element={ <SingleCustomer />} />
                 <Route path='/multiple_customer' element={ <MultipleCustomers />} />
             </Routes>
