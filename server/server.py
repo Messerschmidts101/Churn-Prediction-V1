@@ -160,7 +160,7 @@ def feature_names():
     return features
 
 if __name__ == "__main__":
-    app.run(debug=True, host='0.0.0.0',port=8080)
+    app.run(debug=True, host='localhost',port=8080)
 
 """
 predict([[0,26,161.6],[1,0,243.4],[1,0,299.4]])
