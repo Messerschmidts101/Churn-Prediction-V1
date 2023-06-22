@@ -1,61 +1,109 @@
 """
-[4250 rows x 19 columns]
+====================================================== As of 15th June 2023 ====================================================== 
+Best hyperparameters: {'max_depth': 20, 'n_estimators': 400}
+Best score: 0.9957203499068401
+classifier:  RandomForestClassifier(criterion='entropy', max_depth=20, n_estimators=400)
 Confusion matrix: 
- [[738   4]
- [ 31  77]]
-Precision:  0.9506172839506173
-Recall:  0.7129629629629629
-F-BETA:  0.7504873294346978
+ [[741   5]
+ [  2 713]]
+Precision:  0.9930362116991643
+Recall:  0.9972027972027973
+F-BETA:  0.9963666852990497
 Feature importance:
-state :  0.02091085773356425
-account_length :  0.02364933536951014
-area_code :  0.005446811097901077
-international_plan :  0.09008765128451562
-voice_mail_plan :  0.018082811468269604
-number_vmail_messages :  0.02562426090857211
-total_day_minutes :  0.15240994265109628
-total_day_calls :  0.024252578124440406
-total_day_charge :  0.1463627193163896
-total_eve_minutes :  0.06244392907894073
-total_eve_calls :  0.020166899254556468
-total_eve_charge :  0.06205752452374809
-total_night_minutes :  0.03484614057463236
-total_night_calls :  0.02328064725325476
-total_night_charge :  0.03403347558864758
-total_intl_minutes :  0.03987570130753387
-total_intl_calls :  0.04433202680088285
-total_intl_charge :  0.036752017833653165
-number_customer_service_calls :  0.13538466982989109
+total_local_charge :  0.13664244645999618
+number_customer_service_calls :  0.13362332851197506
+international_plan :  0.08493836066204685
+total_day_charge :  0.06544790925334067
+total_minutes :  0.06417529140360671
+total_day_minutes :  0.06297302722156543
+ratio_calls :  0.03347293763206801
+total_intl_minutes :  0.027246395345533508
+total_intl_charge :  0.025560287874693274
+ratio_charge :  0.025258110762905447
+number_vmail_messages :  0.02504395138183666
+ratio_minutes :  0.024261826311373115
+total_intl_calls :  0.02314232866931457
+total_eve_charge :  0.02312890598071331
+total_eve_minutes :  0.02214924991000802
+avg_day_minutes :  0.021412780555232068
+total_night_charge :  0.019986879428898593
+total_night_minutes :  0.019456798258613146
+voice_mail_plan :  0.0192379081829739
+total_eve_calls :  0.0180033842406327
+total_calls :  0.017956802498495582
+avg_night_minutes :  0.017796267638201958
+state :  0.01772313888332333
+total_night_calls :  0.016865893961226248
+avg_eve_minutes :  0.01667829734849175
+total_day_calls :  0.01659812045015082
+account_length :  0.01648154063174197
+area_code :  0.004737830541040989
+Classes:  ['no' 'yes']
 
-[[THINGS NEEDED TO WORK ON]]
-1. Imputing missing values
-2. Encoded variables [done]
-3. Data Imputation
-4. Handling imbalanced dataset
-5. Feature engineering
+Print mapping for column:  state  |||  {'OH': 0, 'NJ': 1, 'OK': 2, 'MA': 3, 'MO': 4, 'LA': 5, 'WV': 6, 'IN': 7, 'RI': 8, 'IA': 9, 'MT': 10, 'NY': 11, 'ID': 12, 'VA': 13, 'TX': 14, 'FL': 15, 'CO': 16, 'AZ': 17, 'SC': 18, 'WY': 19, 'HI': 20, 'NH': 21, 'AK': 22, 'GA': 23, 'MD': 24, 'AR': 25, 'WI': 26, 'OR': 27, 'MI': 28, 'DE': 29, 'UT': 30, 'CA': 31, 
+'SD': 32, 'NC': 33, 'WA': 34, 'MN': 35, 'NM': 36, 'NV': 37, 'DC': 38, 'VT': 39, 'KY': 40, 'ME': 41, 'MS': 42, 'AL': 43, 'NE': 44, 'KS': 45, 'TN': 46, 'IL': 47, 'PA': 48, 'CT': 49, 'ND': 50}
+Print mapping for column:  area_code  |||  {'area_code_415': 0, 'area_code_408': 1, 'area_code_510': 2}
+Print mapping for column:  international_plan  |||  {'no': 0, 'yes': 1}
+Print mapping for column:  voice_mail_plan  |||  {'yes': 0, 'no': 1}
 
+
+====================================================== As of previous version ====================================================== 
+[4250 rows x 19 columns]
+[('no', 3652), ('yes', 3652)] (7304,)
+Confusion matrix: 
+ [[734  12]
+ [ 64 651]]
+Precision:  0.9819004524886877
+Recall:  0.9104895104895104
+F-BETA:  0.9239284700539312
+Feature importance:
+state :  0.02237761832687284
+account_length :  0.022072404490062873
+area_code :  0.004788540574617004
+international_plan :  0.10601417645318566
+voice_mail_plan :  0.022119522133125652
+number_vmail_messages :  0.027909219836398814
+total_day_minutes :  0.1383517499660237
+total_day_calls :  0.021452768204276534
+total_day_charge :  0.15411747835220052
+total_eve_minutes :  0.051406087741061486
+total_eve_calls :  0.02122865528212054
+total_eve_charge :  0.05541554086852904
+total_night_minutes :  0.03254083362131864
+total_night_calls :  0.020754283227885896
+total_night_charge :  0.03319624585355292
+total_intl_minutes :  0.03585100715225958
+total_intl_calls :  0.0435754471003127
+total_intl_charge :  0.036817624228211124
+number_customer_service_calls :  0.15001079658798458
+Classes:  ['no' 'yes']
 """
 
-import pandas as pd
-import numpy as np
-import joblib
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.impute import SimpleImputer
-from sklearn.model_selection import train_test_split, StratifiedKFold
-from sklearn.metrics import confusion_matrix, classification_report, precision_score, recall_score, fbeta_score
-from sklearn.model_selection import GridSearchCV
-from sklearn.pipeline import Pipeline
-from sklearn.feature_extraction.text import CountVectorizer
-from sklearn.preprocessing import StandardScaler, MinMaxScaler
 import re
+from collections import Counter
+
+import joblib
 import nltk
-from nltk.stem.porter import PorterStemmer
+import numpy as np
+import pandas as pd
+from imblearn import over_sampling, under_sampling
+from imblearn.over_sampling import SMOTE, RandomOverSampler
+from imblearn.pipeline import Pipeline
 from nltk.corpus import stopwords
+from nltk.stem.porter import PorterStemmer
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.impute import SimpleImputer
+from sklearn.metrics import (classification_report, confusion_matrix,
+                             fbeta_score, precision_score, recall_score)
+from sklearn.model_selection import (GridSearchCV, StratifiedKFold,
+                                     train_test_split)
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import MinMaxScaler, StandardScaler
 
-
-def one_hot_encode(data_set):
+def one_hot_encode(data_set,arrExcludedColumns):
     # Perform one-hot encoding
-    for column in data_set.columns:
+    for column in data_set.columns[~data_set.columns.isin(arrExcludedColumns)]:
         if data_set[column].dtype not in ['float64', 'int64']:
             distinct_values = data_set[column].unique()  # Get distinct values
             mapping = {value: index for index, value in enumerate(distinct_values)}  # Create a mapping of values to indices
@@ -71,23 +119,69 @@ def fitChurn():
     '''=========================I. DATA PREPARATION========================='''
     '''=========================I.A. DATA PREPARATION: DATA COLLECTION========================='''
     data_set = pd.read_csv('model/data/dataset.csv')
+    '''=========================I.B. DATA PREPARATION: DATA IMPUTATION========================='''
+    for column in data_set.columns:
+        if data_set[column].dtype == object:
+            column_mode = data_set[column].mode().values[0]
+            data_set[column].fillna(column_mode, inplace=True)
+        else:
+            column_mean = data_set[column].mean()
+            data_set[column].fillna(column_mean, inplace=True)
+    '''=========================I.C. DATA PREPARATION: DATA ENCODING========================='''
+    data_set = one_hot_encode(data_set,['churn'])
+    print("after encoding: \n",data_set)
+
+    '''=========================I.D. DATA PREPARATION: FEATURE ENGINEERING========================='''
+    # Calculate the total number of calls made by a customer
+    data_set['total_calls'] = data_set['total_day_calls'] + data_set['total_eve_calls'] + data_set['total_night_calls']
+    # Comment: The total number of calls reflects the customer's overall engagement and usage of telecom services. Higher engagement may indicate a lower likelihood of churn.
+
+    # Calculate the total number of minutes used by a customer
+    data_set['total_minutes'] = data_set['total_day_minutes'] + data_set['total_eve_minutes'] + data_set['total_night_minutes']
+    # Comment: Total minutes used represents the customer's level of activity and dependence on telecom services. Higher usage may suggest a stronger commitment to the service.
+
+    # Calculate the ratio of international calls to total calls
+    data_set['ratio_calls'] = data_set['total_intl_calls'] / data_set['total_calls']
+    # Comment: The ratio of international calls helps identify the customer's international communication patterns. Higher ratios may indicate a specific need for international connectivity.
+
+    # Calculate the ratio of international minutes to total minutes
+    data_set['ratio_minutes'] = data_set['total_intl_minutes'] / data_set['total_minutes']
+    # Comment: The ratio of international minutes highlights the extent of international calling relative to the overall calling activity. Higher ratios may indicate an increased risk of churn for customers with high international usage.
+
+    # Calculate the average number of minutes used during day calls per month
+    data_set['avg_day_minutes'] = data_set['total_day_minutes'] / data_set['account_length']
+    # Comment: The average number of minutes used during day calls per month provides insights into the customer's typical daytime calling behavior. Unusually low or high values may be indicative of churn risk.
+
+    # Calculate the average number of minutes used during evening calls per month
+    data_set['avg_eve_minutes'] = data_set['total_eve_minutes'] / data_set['account_length']
+    # Comment: The average number of minutes used during evening calls per month offers insights into the customer's evening calling habits and preferences. Deviations from the norm may signal churn risk.
+
+    # Calculate the average number of minutes used during night calls per month
+    data_set['avg_night_minutes'] = data_set['total_night_minutes'] / data_set['account_length']
+    # Comment: The average number of minutes used during night calls per month provides insights into the customer's nighttime calling behavior and usage tendencies. Unusual patterns may indicate churn risk.
+
+    # Calculate the total local charge incurred by a customer
+    data_set['total_local_charge'] = data_set['total_day_charge'] + data_set['total_eve_charge'] + data_set['total_night_charge']
+    # Comment: The total local charge reflects the customer's monetary commitment to local calls. Higher charges may indicate a stronger connection and lower churn likelihood.
+
+    # Calculate the ratio of international charge to total local charge
+    data_set['ratio_charge'] = data_set['total_intl_charge'] / data_set['total_local_charge']
+    # Comment: The ratio of international charge to total local charge provides insights into the proportion of charges attributable to international calls. Higher ratios may suggest higher churn risk for customers with significant international charges.
+
+    '''=========================I.E. DATA PREPARATION: HANDLING IMBALANCED DATASET========================='''
     # Extracting independent and dependent variable
     #x = data_set[[c for c in data_set.columns if c != 'churn' and data_set[c].dtype in ['float64', 'int64']]]
     x = data_set[[c for c in data_set.columns if c != 'churn']]
     y = data_set['churn']
     print(x)
-    '''=========================I.B. DATA PREPARATION: DATA IMPUTATION========================='''
-    '''=========================I.C. DATA PREPARATION: DATA ENCODING========================='''
-    x = one_hot_encode(x)
-    print("after encoding: \n",x)
-    # Convert x to CSV
-    x.to_csv('model/data/x_data.csv', index=False)
-    '''=========================I.D. DATA PREPARATION: HANDLING IMBALANCED DATASET========================='''
-    '''=========================I.E. DATA PREPARATION: FEATURE ENGINEERING========================='''
+    x.to_csv('model/data/x_dataset.csv', index=False)
+    rus = RandomOverSampler(sampling_strategy = 'minority')
+    x_resampled, y_resampled = rus.fit_resample(x,y)
+    print(sorted(Counter(y_resampled).items()),y_resampled.shape)
     '''=========================I.F. DATA PREPARATION: TRAIN/TEST SPLIT========================='''
-    x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=.20, random_state=123)
+    x_train, x_test, y_train, y_test = train_test_split(x_resampled, y_resampled, test_size=.20, random_state=123)
     '''=========================II. TRAINING========================='''
-    classifier = RandomForestClassifier(n_estimators=400, max_depth=10, criterion="entropy")
+    classifier = RandomForestClassifier(n_estimators=400, max_depth=20, criterion="entropy")
     classifier.fit(x_train, y_train)
     '''=========================III. TESTING AND EVALUATION========================='''
     # Predicting the test set result
@@ -101,8 +195,21 @@ def fitChurn():
     print("Confusion matrix: \n", cm)
     print("Precision: ", precision, "\nRecall: ", recall, "\nF-BETA: ", f1beta)
     print("Feature importance: ")
+    
+    # Create a dictionary to store the feature-importance pairs
+    feature_importances = {}
+
+    # Populate the dictionary with feature-importance pairs
     for index, feature in enumerate([c for c in data_set.columns if c != 'churn']):
-        print(feature, ": ", classifier.feature_importances_[index])
+        feature_importances[feature] = classifier.feature_importances_[index]
+
+    # Sort the feature-importance dictionary in descending order based on the importance scores
+    sorted_feature_importances = dict(sorted(feature_importances.items(), key=lambda x: x[1], reverse=True))
+
+    # Print the feature names and their importance scores in descending order
+    for feature, importance in sorted_feature_importances.items():
+        print(feature, ": ", importance)
+    
     '''=========================IV. HYPERPARAMTER TUNING========================='''
     param_grid = {
         'n_estimators': [100, 200, 300, 400],
@@ -131,8 +238,19 @@ def fitChurn():
     print("Confusion matrix: \n", cm)
     print("Precision: ", precision, "\nRecall: ", recall, "\nF-BETA: ", f1beta)
     print("Feature importance: ")
+        # Create a dictionary to store the feature-importance pairs
+    feature_importances = {}
+
+    # Populate the dictionary with feature-importance pairs
     for index, feature in enumerate([c for c in data_set.columns if c != 'churn']):
-        print(feature, ": ", classifier.feature_importances_[index])
+        feature_importances[feature] = classifier.feature_importances_[index]
+
+    # Sort the feature-importance dictionary in descending order based on the importance scores
+    sorted_feature_importances = dict(sorted(feature_importances.items(), key=lambda x: x[1], reverse=True))
+
+    # Print the feature names and their importance scores in descending order
+    for feature, importance in sorted_feature_importances.items():
+        print(feature, ": ", importance)
     
     # Exporting the tree with the best hyperparameter
     joblib.dump(classifier, 'model/churnprediction.pkl')
