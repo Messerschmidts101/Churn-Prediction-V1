@@ -3,7 +3,10 @@ import pandas as pd
 from sklearn.calibration import LabelEncoder
 from imblearn.over_sampling import SMOTE
 from imblearn.over_sampling import RandomOverSampler
+from sklearn.impute import SimpleImputer
 from sklearn.model_selection import train_test_split
+
+
 
 
 from sklearn.preprocessing import KBinsDiscretizer
@@ -150,7 +153,7 @@ def binning_(df, columns=None, num_bins=5, bin_labels=None, remove_original=True
 
     return df
 
-def transform(df, binned = False, split = True):
+def transform(df, binned = False, split = True, seed = 42):
     '''
     Performs data transformation on the input DataFrame.
         Parameters:
@@ -169,25 +172,31 @@ def transform(df, binned = False, split = True):
 
     if 'churn' not in df.columns:
         raise KeyError("'churn' column not found in the DataFrame.")
-
+    #Impute the data
+    imputer = SimpleImputer(strategy = 'median')
+    
     # Perform one-hot encoding on categorical variables
     one_hot_encoder(df)
     target = df['churn']
+    input_features = df.drop('churn', axis=1)
+
+    imputer.fit(input_features)
+    x_imputed = pd.DataFrame(imputer.transform(input_features), columns=df.columns[:-1])
     #SMOTE Samplter to balance the
-    smote = SMOTE()
-    x_resampled, y_resampled = smote.fit_resample(df[[col for col in df.columns if col !='churn']], target)
+    smote = SMOTE(random_state=seed)
+    x_resampled, y_resampled = smote.fit_resample(x_imputed, target)
     # Convert the resampled data back into a DataFrame
-    resampled_df = pd.DataFrame(x_resampled, columns=df.columns[:-1])  # Assuming the last column is the target column
+    resampled_df = pd.DataFrame(x_resampled, columns = df.columns)  # Assuming the last column is the target column
     resampled_df['churn'] = y_resampled
 
     if binned:
         # Perform binning and convert numeric values to binary format
-        df = binning_and_encode(df, num_bins=5)
+        df = binning_and_encode(pd.concat([x_resampled,y_resampled], axis=0), num_bins=5)
 
     if split:
         #print(sorted(Counter(y_resampled).items()),y_resampled.shape)
         # Split the data into training and testing sets
-        return df, *train_test_split(x_resampled, y_resampled, test_size=0.2, random_state=42)
+        return df, *train_test_split(x_resampled, y_resampled, test_size=0.2, random_state=seed)
 
     return resampled_df
 
@@ -253,7 +262,7 @@ def load_dataset(desc=False, bin=False, transformed=True, split=True) -> tuple[p
             - y_test: Testing data labels
     '''
 
-    df = pd.read_csv('model/data/train.csv')
+    df = pd.read_csv('model/data/dataset.csv')
 
     if desc:
         print_desc(df)
@@ -264,8 +273,11 @@ def load_dataset(desc=False, bin=False, transformed=True, split=True) -> tuple[p
 
 def main():
     import numpy as np
-    df, x_train, x_test, y_train, y_test  =  load_dataset()
-    print(df['churn'])
+    #df, x_train, x_test, y_train, y_test  =  load_dataset(split=True)
+    df  =  load_dataset()
+    #print(df['churn'])
+    #print(pd.concat([x_train,y_train], axis=0))
+    print(df)
 
     #df = pd.read_csv('model/data/train.csv')
     #print(df.select_dtypes(include='object').columns)

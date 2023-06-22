@@ -993,7 +993,7 @@ def main():
     added_features(df)
     feat_generator(df)
     df_reduced = reduce_multicollinearity(df, threshold = 0.1)
-    corr_coef_ranking(df_reduced)
+    heatmap_corr(df_reduced)
     print("Correlation Coefficient of all the Features")
     corr = df.corr()
     corr.sort_values(["churn"], ascending = False, inplace = True)
