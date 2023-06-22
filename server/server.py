@@ -7,6 +7,12 @@ import pandas as pd
 import numpy as np
 from flask_sqlalchemy import SQLAlchemy
 # from .models import Customer
+from DataProcessor import DataProcessor
+'''
+dataprocessor = DataProcessor()
+tblDataset = dataprocessor.one_hot_encode(data_set = 'insert dataset here', arrExcludedColumns=['churn'])
+tblDataset = dataprocessor.process_csv('insert dataset here')
+'''
 
 # Load classifier
 churnprediction = joblib.load('model/churnprediction.pkl')
@@ -14,6 +20,8 @@ churnprediction = joblib.load('model/churnprediction.pkl')
 # Create flask app
 app = Flask(__name__, static_folder='static')
 CORS(app)
+
+data_processor =  DataProcessor()
 
 @app.route("/")
 def Home():
@@ -25,11 +33,14 @@ def predict():
     if type(feature_post) == dict:
         features_list = feature_post["feature_post"]
         features = [{"name": feature["name"], "value": float(feature["value"])} for feature in features_list]
+        features = {item['name']: item['value'] for item in features}
+        features = data_processor.process_row(features)
+        print("features: ", features)
 
-        features = [np.array([float(feature["value"]) for feature in features_list])]
-        prediction = churnprediction.predict_proba(features)[0][1]
+        feature = [np.array([float(feature) for feature in features.values()])]
+        prediction = churnprediction.predict_proba(feature)[0][1]
         print(" +++ === --- DEBUGGER LOGS START --- === +++  ")
-        print("Features: ", re.sub(r'  ', '', str(features)))
+        print("Features: ", re.sub(r'  ', '', str(feature)))
         print("Prediction: ", prediction)
         print(" +++ === --- DEBUGGER LOGS END --- === +++  ")
 
@@ -61,10 +72,12 @@ def predict_dataset_feature():
     # Convert the file_data into a pandas DataFrame
     df = pd.read_csv(io.BytesIO(file_data))
     # Process the DataFrame as needed
+    df = data_processor.one_hot_encode(df, "churn")
+    df = data_processor.process_csv(df)
     # df = df.drop("churn", axis=1)
     # prediction = pd.DataFrame(churnprediction.predict_proba(df))[1].tolist()
-    df['prediction'] = pd.DataFrame(churnprediction.predict_proba(df))[1].tolist()
-    df = df.sort_values('prediction', ascending=False).reset_index(drop=True)
+    df['churn'] = pd.DataFrame(churnprediction.predict_proba(df))[1].tolist()
+    df = df.sort_values('churn', ascending=False).reset_index(drop=True)
     print(" +++ === --- DEBUGGER LOGS START --- === +++  ")
     print('Data shape:', df.shape)
     print('Data columns:', df.columns)
