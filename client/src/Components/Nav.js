@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 function Nav({theme, }) {
     return (
         <nav className={'navbar navbar-expand-lg ' + theme}>
-            <Link to="/home" className="nav-heading navbar-brand">Customer Churn Analysis</Link>
+            <Link to="/home" className="nav-heading navbar-brand">Customer <wbr />Churn <wbr />Analysis</Link>
             <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span className="navbar-toggler-icon"></span>
             </button>

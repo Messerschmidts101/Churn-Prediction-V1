@@ -4,15 +4,21 @@ import HighchartsReact from 'highcharts-react-official'
 import { useState, useEffect } from 'react'
 import Header1 from '../Components/Header1'
 import Header2 from '../Components/Header2'
-import Dropdown from 'react-dropdown';
 import Papa from 'papaparse'
 import Input from '../Components/Input'
 
 function MultipleCustomers() {
     
-    let [series, setSeries] = useState([{}])
+    const [seriesArea, setSeriesArea] = useState([{}])
+    const [seriesBar, setSeriesBar] = useState([{}])
+    const [seriesPie, setSeriesPie] = useState([{}])
+    const [data, setData] = useState([{}])
     const [error, setError] = useState("")
     const [feature_list, setFeatureList] = useState([{}])
+    const [selector_area_1, setSelectorArea1] = useState('state')
+    const [selector_area_2, setSelectorArea2] = useState('state')
+    const [selector_bar_1, setSelectorBar1] = useState('state')
+    const [selector_bar_2, setSelectorBar2] = useState('state')
     useEffect(() => {
         fetch("/feature_names").then(
             res => res.json()
@@ -22,32 +28,83 @@ function MultipleCustomers() {
             }
         )
     }, [])
-    const [featureName, setFeatureName] = useState("total_day_calls")
     const allowedExtensions = ["csv"];
     const handleMapper = (name, data) => {
         console.log("data: ",data)
         let obj =  data[name]
         return Object.keys(obj).map((key) => obj[key])
     }
-    const handleTransformation = (data) => {
-        let prediction = handleMapper("prediction", data)
-        let feature =  handleMapper(featureName, data)
+    const handleAreaTransformation = (data) => {
+        console.log("selector_area_1:", selector_area_1)
+        let prediction = handleMapper("churn", data)
+        let feature =  handleMapper(selector_area_1, data)
         const totalSum = feature.reduce((sum, value) => sum + value, 0)
         const ratio = Math.max.apply(Math, feature) / 100
         const percentageData = feature.map(value => (value / totalSum) * 100);
         feature = percentageData.map(value => (value / ratio) > 1 ? 1 : value / ratio);
-        setSeries(
+        setSeriesArea(
             [
                 {
-                    'name': featureName,
+                    'name': selector_area_1,
                     'data': feature
                 },
                 {
-                    'name': 'prediction',
+                    'name': 'churn',
                     'data': prediction
                 },
             ]
         )
+        handleBarTransformation(data)
+    }
+    const handleBarTransformation = (data) => {
+        console.log("selector_bar_1: ", selector_bar_1)
+        console.log("selector_bar_2: ", selector_bar_2)
+        let bar1 = handleMapper(selector_bar_1, data)
+        let bar2 = handleMapper(selector_bar_2, data)
+        bar1 = bar1.reduce((accumulator, accumulated) => { return accumulator + accumulated }, 0)
+        bar2 = bar2.reduce((accumulator, accumulated) => { return accumulator + accumulated }, 0)
+        setSeriesBar(
+            [
+                {
+                    'name': selector_bar_1,
+                    'data': [bar1]
+                },
+                {
+                    'name': selector_bar_2,
+                    'data': [bar2]
+                },
+            ]
+        )
+        console.log("bar1", bar1)
+        console.log("bar2", bar2)
+    }
+    const handlePie = (data) => {
+        let prediction = handleMapper("churn", data)
+        let range = 10
+        let result = prediction.reduce((result, value) => {
+            var slot = Math.floor(((value - 0.01) / range) * 100);
+            (result[slot] = result[slot] || []).push(value);
+            return result;
+        }, [])
+        console.log("pie: ", result)
+        let datum = []
+        result.forEach(value => {
+            console.log("value:", value)
+            let min = Math.min.apply(Math, value).toFixed(4)
+            let max = Math.max.apply(Math, value).toFixed(4)
+            datum.push({
+                "name": "range" + min + "-" + max,
+                "y": value.length
+            })
+        })//[result[0].length, result[1].length, result[2].length, result[3].length, result[4].length, result[5].length, result[6].length, result[7].length, result[9].length, result[-1].length]
+        console.log("datum", datum)
+        setSeriesPie([
+            {
+                'name': 'churn',
+                'data': datum
+            },
+        ])
+
     }
     const handleUpload = (file) => {
         fetch("http://localhost:8080/predict_dataset_feature", {
@@ -61,9 +118,10 @@ function MultipleCustomers() {
             res => res.json()
         ).then(
             data => {
-                handleTransformation(data)
-                console.log("data: ",data[0])
-                console.log("data: ",data)
+                setData(data)
+                handleAreaTransformation(data)
+                handlePie(data)
+                handleBarTransformation(data)
             }
         )
     }
@@ -116,22 +174,24 @@ function MultipleCustomers() {
             handleRead(inputFile)
         }
     };
-    const handleDropdown = (feature) => {
-        setFeatureName(feature)
-    }
 
-    
-    var TITLE = 'Churn of Customers';
     var CAPTION = 'Source: Telco Company';
     CAPTION += '<div style="display:block;">TODO</div>';
     var X_AXIS = 'Customers';
     var Y_AXIS = 'Churn Rate';
     var BEGIN_AT_ZERO = true;
     var SHOW_LEGEND = true;
+    const colours = ["#14342bff", "#60935dff", "#bab700ff", "#bbdfc5ff", "#ff579fff", "#faa33fff"]
+    // --dark-green: #14342bff;
+    // --asparagus: #60935dff;
+    // --old-gold: #bab700ff;
+    // --celadon: #bbdfc5ff;
+    // --brilliant-rose: #ff579fff;
+    // --orange: #faa33fff;
 
-    const optionsLine = {
+    const optionsArea = {
 
-        series: series,
+        series: seriesArea,
 
         chart: {
             type: 'area',
@@ -143,7 +203,7 @@ function MultipleCustomers() {
             }
         },
 
-        title: { text: TITLE },
+        title: { text: 'Churn of Customers' },
         caption: { text: CAPTION },
         credits: { enabled: false },
 
@@ -166,12 +226,12 @@ function MultipleCustomers() {
             title: { text: Y_AXIS },
             labels: { formatter: (x) => {return x.value.toLocaleString()} }
         },
+        colors: colours,
 
         legend: { enabled: SHOW_LEGEND },
     }
-
     const optionsPie = {
-        series: series,
+        series: seriesPie,
 
         chart: {
             type: 'pie',
@@ -206,6 +266,47 @@ function MultipleCustomers() {
             title: { text: Y_AXIS },
             labels: { formatter: (x) => {return x.value.toLocaleString()} }
         },
+        colors: colours,
+
+        legend: { enabled: SHOW_LEGEND },
+    }
+    const optionsBar = {
+        series: seriesBar,
+
+        chart: {
+            type: 'bar',
+            zoomType: 'x',
+            panning: true,
+            panKey: 'shift',
+            scrollablePlotArea: {
+                minWidth: 600
+            }
+        },
+
+        title: { text: "Comparison of Features" },
+        caption: { text: CAPTION },
+        credits: { enabled: false },
+
+        annotations: [{
+            labelOptions: {
+                backgroundColor: 'rgba(255,255,255,0.8)',
+                verticalAlign: 'top',
+                y: 10
+            },
+            labels: "annotationPoints"
+        }],
+
+        xAxis: {
+            title: { text: "Feature" },
+        },
+
+        yAxis: {
+            startOnTick: true,
+            min: BEGIN_AT_ZERO ? 0 : null,
+            title: { text: "Sum" },
+            labels: { formatter: (x) => {return x.value.toLocaleString()} }
+        },
+        colors: colours,
 
         legend: { enabled: SHOW_LEGEND },
     }
@@ -214,22 +315,37 @@ function MultipleCustomers() {
         <>
             <div className='container'>
                 <Header1 className={"text-center lable1 pt-5"}>Predict a dataset of customer's churn!</Header1>
-                <Header2>
-                    {
-                        error ? error : "Your CSV file here!"
-                    }
-                </Header2>
-                <Input id={"file"} name={"file"} theme={"primary"} className={""} onChange={handleFileChange} type="file" placeholder={"Change File"} />
-                {/* <Dropdown options={feature_list} onChange={handleDropdown} value={"prediction"} placeholder="Select an option" />; */}
-                <div>
-                    { 
-                        error ? error : "" /* data.map((col,idx) => <div key={idx}>{col}</div>) */
-                    }
+                <Header2>Your CSV file here!</Header2>
+                <div role='alert'>
+                    {   error ? (<div className='alert alert-danger'><span className=''>{error}</span></div>) : ""  }
                 </div>
+                <Input id={"file"} name={"file"} theme={"primary"} className={""} onChange={handleFileChange} type="file" placeholder={"Change File"} />
+                <select id='area-selector' onChange={(event) => { setSelectorArea1(event.target.value); handleAreaTransformation(data) } }>
+                    {   feature_list.map((feature) => { return ( <option value={feature.name} >{feature.name}</option> ) })  }
+                </select>
+                <select id='area-selector' onChange={(event) => setSelectorArea2(event.target.value) }>
+                    {   feature_list.map((feature) => { return ( <option value={feature.name} >{feature.name}</option> ) })  }
+                </select>
+                {/* <Dropdown options={feature_list} onChange={handleDropdown} value={"prediction"} placeholder="Select an option" />; */}
             </div>
             <div className='container'>
-                <HighchartsReact highcharts={Highcharts} options={optionsLine} />
-                <HighchartsReact highcharts={Highcharts} options={optionsPie} />
+                <div className='row'>
+                    <HighchartsReact highcharts={Highcharts} options={optionsArea} />
+                </div>
+                <div className='row'>
+                    <div className='col'>
+                        <HighchartsReact highcharts={Highcharts} options={optionsPie} />
+                    </div>
+                    <div className='col'>
+                        <select id='bar-selector' onChange={(event) => { setSelectorBar1(event.target.value); handleBarTransformation(data) }}>
+                            {   feature_list.map((feature) => { return ( <option key={feature.name + "bar1"} value={feature.name}>{feature.name}</option> ) })  }
+                        </select>
+                        <select id='bar-selector' onChange={(event) => { setSelectorBar2(event.target.value); handleBarTransformation(data) }}>
+                            {   feature_list.map((feature) => { return ( <option key={feature.name + "bar1"} value={feature.name}>{feature.name}</option> ) })  }
+                        </select>
+                        <HighchartsReact highcharts={Highcharts} options={optionsBar} />  
+                    </div>
+                </div>
             </div>
         </>
     )

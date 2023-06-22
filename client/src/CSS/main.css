@@ -12,9 +12,14 @@
     --brilliant-rose: #ff579fff;
 }
 
+.form {
+    overflow: hidden;
+}
+
 .nav {
     background-color: var(--asparagus);
     padding-left: 45px;
+    overflow-x: hidden;
 }
 
 .nav-heading {
