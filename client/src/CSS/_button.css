@@ -1,0 +1,22 @@
+@import url("./_var.css");
+
+.btn-primary {
+    background-color: var(--dark-green);
+    border-color: var(--dark-green);
+}
+
+.btn-primary:hover {
+    background-color: var(--asparagus);
+    border-color: var(--asparagus);
+}
+
+.btn-outline-danger {
+    color: var(--brilliant-rose);
+    border-color: var(--brilliant-rose);
+}
+
+.btn-outline-danger:hover {
+    color: white;
+    background-color: var(--brilliant-rose);
+    border-color: var(--brilliant-rose);
+}

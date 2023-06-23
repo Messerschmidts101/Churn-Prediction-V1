@@ -90,10 +90,10 @@ function MultipleCustomers() {
         let datum = []
         result.forEach(value => {
             console.log("value:", value)
-            let min = Math.min.apply(Math, value).toFixed(4)
-            let max = Math.max.apply(Math, value).toFixed(4)
+            let min = Math.ceil(Math.min.apply(Math, value) * 100)
+            let max = Math.ceil(Math.max.apply(Math, value) * 100)
             datum.push({
-                "name": "range" + min + "-" + max,
+                "name": "Range " + min + "%-" + max + "%",
                 "y": value.length
             })
         })//[result[0].length, result[1].length, result[2].length, result[3].length, result[4].length, result[5].length, result[6].length, result[7].length, result[9].length, result[-1].length]
@@ -313,40 +313,63 @@ function MultipleCustomers() {
 
     return (
         <>
-            <div className='container'>
-                <Header1 className={"text-center lable1 pt-5"}>Predict a dataset of customer's churn!</Header1>
-                <Header2>Your CSV file here!</Header2>
-                <div role='alert'>
-                    {   error ? (<div className='alert alert-danger'><span className=''>{error}</span></div>) : ""  }
-                </div>
-                <Input id={"file"} name={"file"} theme={"primary"} className={""} onChange={handleFileChange} type="file" placeholder={"Change File"} />
-                <select id='area-selector' onChange={(event) => { setSelectorArea1(event.target.value); handleAreaTransformation(data) } }>
-                    {   feature_list.map((feature) => { return ( <option value={feature.name} >{feature.name}</option> ) })  }
-                </select>
-                <select id='area-selector' onChange={(event) => setSelectorArea2(event.target.value) }>
-                    {   feature_list.map((feature) => { return ( <option value={feature.name} >{feature.name}</option> ) })  }
-                </select>
-                {/* <Dropdown options={feature_list} onChange={handleDropdown} value={"prediction"} placeholder="Select an option" />; */}
-            </div>
-            <div className='container'>
-                <div className='row'>
-                    <HighchartsReact highcharts={Highcharts} options={optionsArea} />
-                </div>
-                <div className='row'>
-                    <div className='col'>
-                        <HighchartsReact highcharts={Highcharts} options={optionsPie} />
+            <main>
+                <div className='container'>
+                    <div className='row'>
+                        <Header1 className={"text-center lable1 pt-5"}>Predict a dataset of customer's churn!</Header1>
+                        <Header2>Your CSV file here!</Header2>
                     </div>
-                    <div className='col'>
-                        <select id='bar-selector' onChange={(event) => { setSelectorBar1(event.target.value); handleBarTransformation(data) }}>
-                            {   feature_list.map((feature) => { return ( <option key={feature.name + "bar1"} value={feature.name}>{feature.name}</option> ) })  }
-                        </select>
-                        <select id='bar-selector' onChange={(event) => { setSelectorBar2(event.target.value); handleBarTransformation(data) }}>
-                            {   feature_list.map((feature) => { return ( <option key={feature.name + "bar1"} value={feature.name}>{feature.name}</option> ) })  }
-                        </select>
-                        <HighchartsReact highcharts={Highcharts} options={optionsBar} />  
+                    <div role='alert'>
+                        {   error ? (<div className='alert alert-danger'><span className=''>{error}</span></div>) : ""  }
+                    </div>
+                    <div className='row'>    
+                        <Input id={"file"} name={"file"} theme={"primary"} className={"input form-control"} onChange={handleFileChange} type="file" placeholder={"Change File"} />
                     </div>
                 </div>
-            </div>
+                <div className='container'>
+                    <div className='row mt-5'>
+                        <div className='col-1'>
+                            <p className=' align-middle h-100' style={{border:"0", margin:"0"}}>Features:</p>
+                        </div>
+                        <div className='col-3'>
+                            <select id='area-selector' className='form-select' onChange={(event) => { setSelectorArea1(event.target.value); handleAreaTransformation(data) } }>
+                                {   feature_list.map((feature) => { return ( <option value={feature.name} >{feature.name}</option> ) })  }
+                            </select>
+                        </div>
+                        <div className='col-3'>
+                            <select id='area-selector' className='form-select' onChange={(event) => setSelectorArea2(event.target.value) }>
+                                {   feature_list.map((feature) => { return ( <option value={feature.name} >{feature.name}</option> ) })  }
+                            </select>
+                        </div>
+                    </div>
+                    <div className='row'>
+                        <HighchartsReact highcharts={Highcharts} options={optionsArea} />
+                    </div>
+                    <div className='row'>
+                        <div className='col mt-5'>
+                            <HighchartsReact highcharts={Highcharts} options={optionsPie} />
+                        </div>
+                        <div className='col mt-5'>
+                            <div  className='row'>
+                                <div className='col-1'>
+                                    <p className=' align-middle h-100' style={{border:"0", margin:"0"}}>Features:</p>
+                                </div>
+                                <div className='col-3'>
+                                    <select id='bar-selector' className='form-select' onChange={(event) => { setSelectorBar1(event.target.value); handleBarTransformation(data) }}>
+                                        {   feature_list.map((feature) => { return ( <option key={feature.name + "bar1"} value={feature.name}>{feature.name}</option> ) })  }
+                                    </select>
+                                </div>
+                                <div className='col-3'>
+                                    <select id='bar-selector' className='form-select' onChange={(event) => { setSelectorBar2(event.target.value); handleBarTransformation(data) }}>
+                                        {   feature_list.map((feature) => { return ( <option key={feature.name + "bar1"} value={feature.name}>{feature.name}</option> ) })  }
+                                    </select>
+                                </div>
+                            </div>
+                            <HighchartsReact highcharts={Highcharts} options={optionsBar} />  
+                        </div>
+                    </div>
+                </div>
+            </main>
         </>
     )
 }

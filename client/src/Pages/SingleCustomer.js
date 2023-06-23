@@ -71,16 +71,20 @@ function SingleCustomer() {
     return (
         <>
             <div className='container'>
-                <Header1 className={"row text-center pt-5"}>Predict a customer's churn!</Header1>
                 <div className='row d-flex flex-row align-items-center pt-5'>
-                    <div className='col form-floating'>
-                        <Input id={"pasteData"} className={"form-control"} type="text" placeholder="Paste Excel row here" />
-                        <Label forLabel={"pasteData"} children={"Paste Excel row here"} />
+                    <div className='row text-center pt-5'>
+                        <Header1 className={""}>Predict a customer's churn!</Header1>
                     </div>
-                    <Button theme={"primary"} className={"col-2"} children={"Scatter Values"} onClick={handleScatter} />
+                    <div className='row'>
+                        <div className='col form-floating'>
+                            <Input id={"pasteData"} className={"form-control"} type="text" placeholder="Paste Excel row here" />
+                            <Label forLabel={"pasteData"} children={"Paste Excel row here"} />
+                        </div>
+                        <Button theme={"primary"} className={"col-2"} children={"Scatter Values"} onClick={handleScatter} />
+                    </div>
                 </div>
-                <Header2 className={"row mt-3"} children={"...Or input below each value individually"} />
-                <div id={"predictionForm"} className={"form row"}>
+                <div id={"predictionForm"} className={"form row mt-3"}>
+                    <Header2 className={""}>...Or input below each value individually</Header2>
                     {feature_list.map((feature) => {
                         return <div className='form-floating col-3'>
                             <InputFeature id={feature.name} className={"form-control d-flex"} key={feature.name} feature={feature.name} />

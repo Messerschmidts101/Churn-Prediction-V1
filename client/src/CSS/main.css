@@ -1,42 +1,20 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@800&display=swap');
+@import url("./_var.css");
+@import url("./_root.css");
+@import url("./_nav.css");
+@import url("./_form.css");
+@import url("./_input.css");
+@import url("./_button.css");
 
-*, ::before, ::after {
-    -webkit-box-sizing: border-box;
-            box-sizing: border-box;
-    padding: 0;
-    margin: auto;
-    --dark-green: #14342bff;
-    --asparagus: #60935dff;
-    --old-gold: #bab700ff;
-    --celadon: #bbdfc5ff;
-    --brilliant-rose: #ff579fff;
+h1, h2 {
+    font-family: var(--font-secondary-variant);
 }
 
-.form {
-    overflow: hidden;
+p {
+    font-family: var(--font-secondary);
 }
 
-.nav {
-    background-color: var(--asparagus);
-    padding-left: 45px;
-    overflow-x: hidden;
-}
-
-.nav-heading {
-    font-size: 40px;
-    font-weight: bold;
-    margin: 0;
-    color: var(--dark-green);
-    padding-top: 5px;
-}
-
-.nav-subheading {
-    font-size: 23.2px;
-    margin: 0;
-}
-
-.nav-item-custom {
-    color: white;
+strong {
+    color: var(--brilliant-rose);
 }
 
 .label1 {
@@ -45,27 +23,10 @@
     margin-bottom: 30px;
 }
 
-.input-row {
-    margin: 0;
-    width: 1100px;
-}
-
 .scatter-btn {
     height: 50px;
     background-color: #D9D9D9;
     font-weight: bold;
     font-size: large;
     padding-top: 10px;
-}
-
-/* Chrome, Safari, Edge, Opera */
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-/* Firefox */
-input[type=number] {
-  -moz-appearance: textfield;
 }

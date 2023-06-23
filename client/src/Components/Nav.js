@@ -5,14 +5,18 @@ import { Link } from 'react-router-dom'
 function Nav({theme, }) {
     return (
         <nav className={'navbar navbar-expand-lg ' + theme}>
-            <Link to="/home" className="nav-heading navbar-brand">Customer <wbr />Churn <wbr />Analysis</Link>
-            <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span className="navbar-toggler-icon"></span>
-            </button>
-            <ul className='navbar-nav mr-auto'>
-                <NavItem toLink="/single_customer">Single Customer</NavItem>
-                <NavItem toLink="/multiple_customer">Customer Dataset</NavItem>
-            </ul>
+            <div className='container-fluid'>
+                <Link to="/home" className="nav-heading navbar-brand">The Churners</Link>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div id='navbarSupportedContent' className='collapse navbar-collapse'>
+                    <ul className='navbar-nav mr-auto nav-item-custom'>
+                        <NavItem toLink="/single_customer">Single Customer</NavItem>
+                        <NavItem toLink="/multiple_customer">Customer Dataset</NavItem>
+                    </ul>
+                </div>
+            </div>
         </nav>
     )
 }

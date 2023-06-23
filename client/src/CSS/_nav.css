@@ -1,0 +1,20 @@
+@import url("_var.css");
+.nav {
+    background-color: var(--asparagus);
+    padding-left: 45px;
+    overflow-x: hidden;
+}
+
+.nav-heading {
+    font-size: 40px;
+    font-weight: bold;
+    margin: 0;
+    color: var(--dark-green);
+    padding-top: 5px;
+    font-family: var(--font-primary)
+}
+
+.nav-subheading {
+    font-size: 23.2px;
+    margin: 0;
+}

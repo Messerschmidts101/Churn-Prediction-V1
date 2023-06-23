@@ -3,22 +3,27 @@ import Nav from './Components/Nav'
 import Home from './Pages/Home'
 import SingleCustomer from './Pages/SingleCustomer'
 import MultipleCustomers from './Pages/MultipleCustomers'
+import NotFoundPage from './Pages/NotFoundPage'
 import { Routes, Route } from 'react-router-dom'
 import './CSS/main.css'
+import Footer from './Components/Footer'
 
 function App() {
-
-
     
     return (
-        <main className='main'>
+        <>
             <Nav theme="nav" />
-            <Routes>
-                <Route path='/' element={ <Home />} />
-                <Route path='/single_customer' element={ <SingleCustomer />} />
-                <Route path='/multiple_customer' element={ <MultipleCustomers />} />
-            </Routes>
-        </main>
+            <main className='main'>
+                <Routes>
+                    <Route path='/' element={ <Home />} />
+                    <Route path='/home' element={ <Home />} />
+                    <Route path='/single_customer' element={ <SingleCustomer />} />
+                    <Route path='/multiple_customer' element={ <MultipleCustomers />} />
+                    <Route path='/*' element={ <NotFoundPage /> } />
+                </Routes>
+            </main>
+            <Footer />
+        </>
     )
 }
 

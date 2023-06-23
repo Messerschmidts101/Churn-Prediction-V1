@@ -4,16 +4,16 @@ import { Link } from 'react-router-dom'
 
 function Footer() {
     return (
-        <footer className='bg-dark text-center text-white' style={{position:"absolute",bottom:0,width:"100%"}}>
+        <footer className='bg-dark text-center text-white mt-auto'>
             <div className='container p-4'>
                 <section className='mb-4'>
-                    <Link to="https://github.com/Messerschmidts101/Churn-Prediction-V1" className="me-4 text-reset">
-                        <i className="fab fa-github"></i>
+                    <Link to="https://github.com/Messerschmidts101/Churn-Prediction-V1" className="btn btn-outline-light btn-floating m-1">
+                        <i class="fa-brands fa-github"></i>
                     </Link>
                 </section>
                 <section className='mb-4'>
                     <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                        At The Churners, we specialize in customer churn analysis, empowering businesses to reduce churn rates and enhance customer retention. Through advanced data analytics and predictive modeling, we uncover valuable insights and provide actionable strategies to optimize customer loyalty. Partner with us to unlock the potential of your customer base and drive sustainable growth through data-driven retention solutions.
                     </p>
                 </section>
                 <section className='container'>
@@ -33,7 +33,7 @@ function Footer() {
                             <p>Alarcon, Chastin</p>
                             <p>David, Adrien Christian</p>
                             <p>Ferrer, Bryan Kristoffer</p>
-                            <p>Señorin, Erika Sheen</p>
+                            <p>Señorin, Ereka Sheen</p>
                         </div>
                     </div>
                 </section>

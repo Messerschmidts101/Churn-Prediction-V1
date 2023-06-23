@@ -1,0 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Oxygen:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;400&display=swap');
+
+*, ::before, ::after {
+    --font-primary: 'Oxygen', sans-serif;
+    --font-secondary: 'Roboto', sans-serif,  'Regular';
+    --font-secondary-variant: 'Roboto', sans-serif,  'Thin';
+    --dark-green: #14342bff;
+    --asparagus: #60935dff;
+    --old-gold: #bab700ff;
+    --celadon: #bbdfc5ff;
+    --brilliant-rose: #ff579fff;
+    font-family: var(--font-secondary-variant);
+}
