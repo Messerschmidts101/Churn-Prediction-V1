@@ -169,6 +169,10 @@ def feature_names():
             id: 18,
             name: "number_customer_service_calls"
         },
+        {
+            id: 19,
+            name: "churn"
+        },
     ]
     return features
 
