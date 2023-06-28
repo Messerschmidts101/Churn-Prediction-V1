@@ -1,0 +1,49 @@
+@import url('./_var.css');
+
+.bg-dark-green {
+    background-color: var(--dark-green);
+}
+
+.bg-asparagus {
+    background-color: var(--asparagus);
+}
+
+.bg-old-gold {
+    background-color: var(--old-gold);
+}
+
+.bg-orange {
+    background-color: var(--orange);
+}
+
+.celadon {
+    color: var(--celadon);
+}
+
+.brilliant-rose {
+    color: var(--brilliant-rose);
+}
+
+.dark-green {
+    color: var(--dark-green);
+}
+
+.asparagus {
+    color: var(--asparagus);
+}
+
+.old-gold {
+    color: var(--old-gold);
+}
+
+.celadon {
+    color: var(--celadon);
+}
+
+.brilliant-rose {
+    color: var(--brilliant-rose);
+}
+
+.orange {
+    color: var(--orange);
+}

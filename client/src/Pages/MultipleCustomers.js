@@ -12,10 +12,11 @@ function MultipleCustomers() {
     const [seriesArea, setSeriesArea] = useState([{}])
     const [seriesBar, setSeriesBar] = useState([{}])
     const [seriesPie, setSeriesPie] = useState([{}])
+    const [population, setPopulation] = useState()
     const [data, setData] = useState([{}])
     const [error, setError] = useState("")
     const [feature_list, setFeatureList] = useState([{}])
-    const [selector_area_1, setSelectorArea1] = useState('state')
+    const [selector_area_1, setSelectorArea1] = useState('churn')
     const [selector_area_2, setSelectorArea2] = useState('state')
     const [selector_bar_1, setSelectorBar1] = useState('state')
     const [selector_bar_2, setSelectorBar2] = useState('state')
@@ -36,8 +37,9 @@ function MultipleCustomers() {
     }
     const handleAreaTransformation = (data) => {
         console.log("selector_area_1:", selector_area_1)
-        let prediction = handleMapper("churn", data)
-        let feature =  handleMapper(selector_area_1, data)
+        console.log("selector_area_2:", selector_area_2)
+        let prediction = handleMapper(selector_area_1, data)
+        let feature =  handleMapper(selector_area_2, data)
         const totalSum = feature.reduce((sum, value) => sum + value, 0)
         const ratio = Math.max.apply(Math, feature) / 100
         const percentageData = feature.map(value => (value / totalSum) * 100);
@@ -49,7 +51,7 @@ function MultipleCustomers() {
                     'data': feature
                 },
                 {
-                    'name': 'churn',
+                    'name': selector_area_2,
                     'data': prediction
                 },
             ]
@@ -96,6 +98,7 @@ function MultipleCustomers() {
                 "name": "Range " + min + "%-" + max + "%",
                 "y": value.length
             })
+            setPopulation(datum)
         })//[result[0].length, result[1].length, result[2].length, result[3].length, result[4].length, result[5].length, result[6].length, result[7].length, result[9].length, result[-1].length]
         console.log("datum", datum)
         setSeriesPie([
@@ -327,30 +330,21 @@ function MultipleCustomers() {
                     </div>
                 </div>
                 <div className='container'>
-                    <div className='row mt-5'>
-                        <div className='col-1'>
-                            <p className=' align-middle h-100' style={{border:"0", margin:"0"}}>Features:</p>
-                        </div>
-                        <div className='col-3'>
-                            <select id='area-selector' className='form-select' onChange={(event) => { setSelectorArea1(event.target.value); handleAreaTransformation(data) } }>
-                                {   feature_list.map((feature) => { return ( <option value={feature.name} >{feature.name}</option> ) })  }
-                            </select>
-                        </div>
-                        <div className='col-3'>
-                            <select id='area-selector' className='form-select' onChange={(event) => setSelectorArea2(event.target.value) }>
-                                {   feature_list.map((feature) => { return ( <option value={feature.name} >{feature.name}</option> ) })  }
-                            </select>
-                        </div>
-                    </div>
-                    <div className='row'>
-                        <HighchartsReact highcharts={Highcharts} options={optionsArea} />
-                    </div>
                     <div className='row'>
                         <div className='col mt-5'>
+                            <div className='d-flex flex-row my-3'>
+                                {
+                                    population ? population.map((range) => {
+                                        return ( <>
+                                            <div key={range.name} className='col-1'>{range.name}<br /><b>{range.y}</b></div>
+                                        </>)
+                                    }) : "Nothing here"
+                                }
+                            </div>
                             <HighchartsReact highcharts={Highcharts} options={optionsPie} />
                         </div>
                         <div className='col mt-5'>
-                            <div  className='row'>
+                            <div  className='d-flex flex-row my-3'>
                                 <div className='col-1'>
                                     <p className=' align-middle h-100' style={{border:"0", margin:"0"}}>Features:</p>
                                 </div>
@@ -367,6 +361,24 @@ function MultipleCustomers() {
                             </div>
                             <HighchartsReact highcharts={Highcharts} options={optionsBar} />  
                         </div>
+                    </div>
+                    <div className='row'>
+                        <div className='d-flex flex-row mb-3 mt-5'>
+                            <div className='col-1'>
+                                <p className=' align-middle h-100' style={{border:"0", margin:"0"}}>Features:</p>
+                            </div>
+                            <div className='col-3'>
+                                <select id='area-selector' className='form-select' onChange={(event) => { setSelectorArea1(event.target.value); handleAreaTransformation(data) } }>
+                                    {   feature_list.map((feature) => { return ( <option value={feature.name} selected={"churn" === feature.name ? true : false} >{feature.name}</option> ) })  }
+                                </select>
+                            </div>
+                            <div className='col-3'>
+                                <select id='area-selector' className='form-select' onChange={(event) => { setSelectorArea2(event.target.value); handleAreaTransformation(data) } }>
+                                    {   feature_list.map((feature) => { return ( <option value={feature.name} >{feature.name}</option> ) })  }
+                                </select>
+                            </div>
+                        </div>
+                        <HighchartsReact highcharts={Highcharts} options={optionsArea} />
                     </div>
                 </div>
             </main>

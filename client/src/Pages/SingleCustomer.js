@@ -15,6 +15,7 @@ function SingleCustomer() {
             res => res.json()
         ).then(
             data => {
+                data.pop()
                 setFeatureList(data)
             }
         )
@@ -66,11 +67,13 @@ function SingleCustomer() {
         )
         
     }
-    
+    const handleChurnColours = () => {
+        return (!isNaN(churn) && churn >= 0.50) ? "old-gold" : "brilliant-rose"
+    }
 
     return (
         <>
-            <div className='container'>
+            <div className='container px-5'>
                 <div className='row d-flex flex-row align-items-center pt-5'>
                     <div className='row text-center pt-5'>
                         <Header1 className={""}>Predict a customer's churn!</Header1>
@@ -80,13 +83,13 @@ function SingleCustomer() {
                             <Input id={"pasteData"} className={"form-control"} type="text" placeholder="Paste Excel row here" />
                             <Label forLabel={"pasteData"} children={"Paste Excel row here"} />
                         </div>
-                        <Button theme={"primary"} className={"col-2"} children={"Scatter Values"} onClick={handleScatter} />
+                        <Button theme={"primary"} className={"col-md-2 col-sm-3 my-md-2"} children={"Scatter Values"} onClick={handleScatter} />
                     </div>
                 </div>
-                <div id={"predictionForm"} className={"form row mt-3"}>
+                <div id={"predictionForm"} className={"form row mt-3 flex-sm-row flex-column"}>
                     <Header2 className={""}>...Or input below each value individually</Header2>
                     {feature_list.map((feature) => {
-                        return <div className='form-floating col-3'>
+                        return <div className='form-floating col-md-3 col-sm-10 my-md-2'>
                             <InputFeature id={feature.name} className={"form-control d-flex"} key={feature.name} feature={feature.name} />
                             <Label forLabel={feature.name} children={feature.name} />
                         </div>
@@ -96,13 +99,20 @@ function SingleCustomer() {
                 <div className='row'>
                     <Button theme={"outline-danger"} className={"my-3"} children={"Clear"} onClick={handleClear} />
                 </div>
-                <div className='row text-center'>
-                    <Header2> Churn Rate</Header2>
-                    <Header1 className={"display-1"}>
-                    {
-                        isNaN(churn) ? "0.00%": churn.toFixed(2) + "%"
-                    }
-                    </Header1>
+                <div className='row text-center py-5 unselectable'>
+                    <div className='col-md-5 col-sm-7 py-3 bg-dark-green rounded-pill'>
+                        <Header2 className={"text-white"}> Churn Rate</Header2>
+                        <Header1 className={"display-1 " + (handleChurnColours()) +  " "}>
+                        {
+                            isNaN(churn) ? "0.00%": (churn * 100).toFixed(2) + "%"
+                        }
+                        </Header1>
+                        <Header1 className={"display-5 " + (handleChurnColours())}>
+                        {   
+                            (!isNaN(churn) && churn >= 0.50) ? "Churned!" : "Not Churned!"
+                        }
+                        </Header1>
+                    </div>
                 </div>
             </div>
         </>

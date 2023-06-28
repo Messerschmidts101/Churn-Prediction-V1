@@ -4,6 +4,7 @@
 @import url("./_form.css");
 @import url("./_input.css");
 @import url("./_button.css");
+@import url("./_colours.css");
 
 h1, h2 {
     font-family: var(--font-secondary-variant);
@@ -17,16 +18,11 @@ strong {
     color: var(--brilliant-rose);
 }
 
-.label1 {
-    font-size: 50px;
-    font-weight: bold;
-    margin-bottom: 30px;
-}
-
-.scatter-btn {
-    height: 50px;
-    background-color: #D9D9D9;
-    font-weight: bold;
-    font-size: large;
-    padding-top: 10px;
+.unselectable {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }

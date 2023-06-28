@@ -13,7 +13,7 @@ function App() {
     return (
         <>
             <Nav theme="nav" />
-            <main className='main'>
+            <main className='main bg-light'>
                 <Routes>
                     <Route path='/' element={ <Home />} />
                     <Route path='/home' element={ <Home />} />

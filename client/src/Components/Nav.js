@@ -6,7 +6,7 @@ function Nav({theme, }) {
     return (
         <nav className={'navbar navbar-expand-lg ' + theme}>
             <div className='container-fluid'>
-                <Link to="/home" className="nav-heading navbar-brand">The Churners</Link>
+                <Link to="/home" className="nav-heading navbar-brand">TelCo <wbr />Generic</Link>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>

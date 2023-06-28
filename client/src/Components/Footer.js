@@ -13,7 +13,7 @@ function Footer() {
                 </section>
                 <section className='mb-4'>
                     <p>
-                        At The Churners, we specialize in customer churn analysis, empowering businesses to reduce churn rates and enhance customer retention. Through advanced data analytics and predictive modeling, we uncover valuable insights and provide actionable strategies to optimize customer loyalty. Partner with us to unlock the potential of your customer base and drive sustainable growth through data-driven retention solutions.
+                        At TelCo Generic, we specialize in customer churn analysis, empowering businesses to reduce churn rates and enhance customer retention. Through advanced data analytics and predictive modeling, we uncover valuable insights and provide actionable strategies to optimize customer loyalty. Partner with us to unlock the potential of your customer base and drive sustainable growth through data-driven retention solutions.
                     </p>
                 </section>
                 <section className='container'>

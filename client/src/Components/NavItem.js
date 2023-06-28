@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 
 function NavItem({children, toLink}) {
     return (
-        <li className='nav-item active'>
+        <li className='nav-item'>
             <Link to={toLink} className="nav-link">
             {children}
             </Link>
