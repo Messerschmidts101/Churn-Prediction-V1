@@ -1,0 +1,22 @@
+@import url("./_var.css");
+
+
+.highcharts-scrolling::-webkit-scrollbar {
+    width: 10px;
+    scrollbar-width: thin;
+}
+
+/* Track */
+.highcharts-scrolling::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+   
+/* Handle */
+.highcharts-scrolling::-webkit-scrollbar-thumb {
+    background: #888;
+}
+  
+/* Handle on hover */
+.highcharts-scrolling::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}

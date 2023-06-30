@@ -12,12 +12,16 @@
     background-color: var(--old-gold);
 }
 
-.bg-orange {
-    background-color: var(--orange);
+.bg-celadon {
+    background-color: var(--celadon);
 }
 
-.celadon {
-    color: var(--celadon);
+.bg-brilliant-rose {
+    background-color: var(--brilliant-rose);
+}
+
+.bg-orange {
+    background-color: var(--orange);
 }
 
 .brilliant-rose {

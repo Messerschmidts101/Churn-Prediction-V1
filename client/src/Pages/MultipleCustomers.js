@@ -2,10 +2,10 @@ import React from 'react'
 import Highcharts from 'highcharts'
 import HighchartsReact from 'highcharts-react-official'
 import { useState, useEffect } from 'react'
-import Header1 from '../Components/Header1'
-import Header2 from '../Components/Header2'
+import Header3 from '../Components/Header3'
 import Papa from 'papaparse'
 import Input from '../Components/Input'
+import Heroe from '../Components/Heroe'
 
 function MultipleCustomers() {
     
@@ -17,9 +17,9 @@ function MultipleCustomers() {
     const [error, setError] = useState("")
     const [feature_list, setFeatureList] = useState([{}])
     const [selector_area_1, setSelectorArea1] = useState('churn')
-    const [selector_area_2, setSelectorArea2] = useState('state')
-    const [selector_bar_1, setSelectorBar1] = useState('state')
-    const [selector_bar_2, setSelectorBar2] = useState('state')
+    const [selector_area_2, setSelectorArea2] = useState('total_day_calls')
+    const [selector_bar_1, setSelectorBar1] = useState('total_day_calls')
+    const [selector_bar_2, setSelectorBar2] = useState('total_eve_calls')
     useEffect(() => {
         fetch("/feature_names").then(
             res => res.json()
@@ -178,12 +178,13 @@ function MultipleCustomers() {
         }
     };
 
-    var CAPTION = 'Source: Telco Company';
-    CAPTION += '<div style="display:block;">TODO</div>';
+    var CAPTION = 'Source: Telco Generic';
     var X_AXIS = 'Customers';
     var Y_AXIS = 'Churn Rate';
     var BEGIN_AT_ZERO = true;
     var SHOW_LEGEND = true;
+    var BACKGROUNDCOLOR = "#00000000"
+    var HEIGHT = 400
     const colours = ["#14342bff", "#60935dff", "#bab700ff", "#bbdfc5ff", "#ff579fff", "#faa33fff"]
     // --dark-green: #14342bff;
     // --asparagus: #60935dff;
@@ -200,6 +201,7 @@ function MultipleCustomers() {
             type: 'area',
             zoomType: 'x',
             panning: true,
+            backgroundColor:  BACKGROUNDCOLOR,
             panKey: 'shift',
             scrollablePlotArea: {
                 minWidth: 600
@@ -239,8 +241,10 @@ function MultipleCustomers() {
         chart: {
             type: 'pie',
             zoomType: 'x',
+            backgroundColor:  BACKGROUNDCOLOR,
             panning: true,
             panKey: 'shift',
+            height: HEIGHT,
             scrollablePlotArea: {
                 minWidth: 600
             }
@@ -279,8 +283,10 @@ function MultipleCustomers() {
         chart: {
             type: 'bar',
             zoomType: 'x',
+            backgroundColor:  BACKGROUNDCOLOR,
             panning: true,
             panKey: 'shift',
+            height: HEIGHT,
             scrollablePlotArea: {
                 minWidth: 600
             }
@@ -318,67 +324,83 @@ function MultipleCustomers() {
         <>
             <main>
                 <div className='container'>
-                    <div className='row'>
-                        <Header1 className={"text-center lable1 pt-5"}>Predict a dataset of customer's churn!</Header1>
-                        <Header2>Your CSV file here!</Header2>
+                    <Heroe display={"display-1"} subheading={"Predict a customer dataset's churn"} boolSubheading={true}>Multiple Customer Churn</Heroe>
+                    <div className='card mt-5'>
+                        <div className='d-flex flex-row w-100 my-4'>
+                            <div className='col-md-2'>
+                                <Header3 className={"my-auto"}>Select CSV file</Header3>
+                            </div>
+                            <div className='col-md-9'>
+                                <Input id={"file"} name={"file"} theme={"primary"} className={"input form-control"} onChange={handleFileChange} type="file" placeholder={"Change File"} />
+                            </div>
+                        </div>
                     </div>
                     <div role='alert'>
                         {   error ? (<div className='alert alert-danger'><span className=''>{error}</span></div>) : ""  }
                     </div>
-                    <div className='row'>    
-                        <Input id={"file"} name={"file"} theme={"primary"} className={"input form-control"} onChange={handleFileChange} type="file" placeholder={"Change File"} />
-                    </div>
                 </div>
                 <div className='container'>
                     <div className='row'>
-                        <div className='col mt-5'>
-                            <div className='d-flex flex-row my-3'>
-                                {
-                                    population ? population.map((range) => {
-                                        return ( <>
-                                            <div key={range.name} className='col-1'>{range.name}<br /><b>{range.y}</b></div>
-                                        </>)
-                                    }) : "Nothing here"
-                                }
+                        <div className='col-md-6 col-sm-9 my-auto'>
+                            <div  className='card'>
+                                <div className='d-flex flex-row my-3 card-title w-100'>
+                                    {
+                                        population ? population.map((range) => {
+                                            return ( <>
+                                                <div key={range.name} className='col-1'>{range.name}<br /><b>{range.y}</b></div>
+                                            </>)
+                                        }) : "Nothing here"
+                                    }
+                                </div>
+                                <div className='card-body w-100'>
+                                    <HighchartsReact highcharts={Highcharts} options={optionsPie} />
+                                </div>
                             </div>
-                            <HighchartsReact highcharts={Highcharts} options={optionsPie} />
                         </div>
-                        <div className='col mt-5'>
-                            <div  className='d-flex flex-row my-3'>
+                        <div className='col-md-6 col-sm-9 my-auto'>
+                            <div className='card'>
+                                <div  className='d-flex flex-row my-3 card-title w-100'>
+                                    <div className='col-2'>
+                                        <p className=' align-middle h-100' style={{border:"0", margin:"0"}}>Features:</p>
+                                    </div>
+                                    <div className='col-3'>
+                                        <select id='bar-selector' className='form-select' onChange={(event) => { setSelectorBar1(event.target.value); handleBarTransformation(data) }}>
+                                            {   feature_list.map((feature) => { return ( <option key={feature.name + "bar1"} value={feature.name} selected={"total_eve_calls" === feature.name ? true : false}>{feature.name}</option> ) })  }
+                                        </select>
+                                    </div>
+                                    <div className='col-3'>
+                                        <select id='bar-selector' className='form-select' onChange={(event) => { setSelectorBar2(event.target.value); handleBarTransformation(data) }}>
+                                            {   feature_list.map((feature) => { return ( <option key={feature.name + "bar1"} value={feature.name} selected={"total_day_calls" === feature.name ? true : false}>{feature.name}</option> ) })  }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div className='card-body w-100'>
+                                    <HighchartsReact highcharts={Highcharts} options={optionsBar} />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className='row'>
+                        <div className='card'>
+                            <div className='d-flex flex-row mb-3 mt-5 card-title w-100'>
                                 <div className='col-1'>
                                     <p className=' align-middle h-100' style={{border:"0", margin:"0"}}>Features:</p>
                                 </div>
                                 <div className='col-3'>
-                                    <select id='bar-selector' className='form-select' onChange={(event) => { setSelectorBar1(event.target.value); handleBarTransformation(data) }}>
-                                        {   feature_list.map((feature) => { return ( <option key={feature.name + "bar1"} value={feature.name}>{feature.name}</option> ) })  }
+                                    <select id='area-selector' className='form-select' onChange={(event) => { setSelectorArea1(event.target.value); handleAreaTransformation(data) } }>
+                                        {   feature_list.map((feature) => { return ( <option value={feature.name} selected={"churn" === feature.name ? true : false}>{feature.name}</option> ) })  }
                                     </select>
                                 </div>
                                 <div className='col-3'>
-                                    <select id='bar-selector' className='form-select' onChange={(event) => { setSelectorBar2(event.target.value); handleBarTransformation(data) }}>
-                                        {   feature_list.map((feature) => { return ( <option key={feature.name + "bar1"} value={feature.name}>{feature.name}</option> ) })  }
+                                    <select id='area-selector' className='form-select' onChange={(event) => { setSelectorArea2(event.target.value); handleAreaTransformation(data) } }>
+                                        {   feature_list.map((feature) => { return ( <option value={feature.name}  selected={"total_day_calls" === feature.name ? true : false}>{feature.name}</option> ) })  }
                                     </select>
                                 </div>
                             </div>
-                            <HighchartsReact highcharts={Highcharts} options={optionsBar} />  
-                        </div>
-                    </div>
-                    <div className='row'>
-                        <div className='d-flex flex-row mb-3 mt-5'>
-                            <div className='col-1'>
-                                <p className=' align-middle h-100' style={{border:"0", margin:"0"}}>Features:</p>
-                            </div>
-                            <div className='col-3'>
-                                <select id='area-selector' className='form-select' onChange={(event) => { setSelectorArea1(event.target.value); handleAreaTransformation(data) } }>
-                                    {   feature_list.map((feature) => { return ( <option value={feature.name} selected={"churn" === feature.name ? true : false} >{feature.name}</option> ) })  }
-                                </select>
-                            </div>
-                            <div className='col-3'>
-                                <select id='area-selector' className='form-select' onChange={(event) => { setSelectorArea2(event.target.value); handleAreaTransformation(data) } }>
-                                    {   feature_list.map((feature) => { return ( <option value={feature.name} >{feature.name}</option> ) })  }
-                                </select>
+                            <div className='card-body w-100'>
+                                <HighchartsReact highcharts={Highcharts} options={optionsArea} />
                             </div>
                         </div>
-                        <HighchartsReact highcharts={Highcharts} options={optionsArea} />
                     </div>
                 </div>
             </main>

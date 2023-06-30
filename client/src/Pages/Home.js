@@ -11,10 +11,10 @@ function Home() {
                 <div className='d-flex flex-column text-center h-100'>
                     <div>
                         <Header1 className={'display-1'}>Welcome!</Header1>
-                        <blockquote class="blockquote">
+                        <blockquote className="blockquote">
                             <p>"Unlocking Customer Retention: Empowering Businesses to Thrive Through Data-driven Churn Analysis."</p>
                         </blockquote>
-                        <figcaption class="blockquote-footer">
+                        <figcaption className="blockquote-footer">
                             Founders of <cite title="Source Title">TelCo Generic</cite>
                         </figcaption>
                         <Link to="/single_customer"><Button theme={'primary'}>Get Started!</Button></Link>

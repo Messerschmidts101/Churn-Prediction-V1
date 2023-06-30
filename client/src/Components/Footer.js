@@ -8,7 +8,7 @@ function Footer() {
             <div className='container p-4'>
                 <section className='mb-4'>
                     <Link to="https://github.com/Messerschmidts101/Churn-Prediction-V1" className="btn btn-outline-light btn-floating m-1">
-                        <i class="fa-brands fa-github"></i>
+                        <i className="fa-brands fa-github"></i>
                     </Link>
                 </section>
                 <section className='mb-4'>
