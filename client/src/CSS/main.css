@@ -1,69 +1,56 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@800&display=swap');
+@import url("./_var.css");
+@import url("./_root.css");
+@import url("./_nav.css");
+@import url("./_form.css");
+@import url("./_input.css");
+@import url("./_button.css");
+@import url("./_colours.css");
+@import url("./_scrollbar.css");
 
-*, ::before, ::after {
-    -webkit-box-sizing: border-box;
-            box-sizing: border-box;
-    padding: 0;
-    margin: auto;
+h1, h2 {
+    font-family: var(--font-secondary-variant);
 }
 
-body {
-    padding-top: 130px;
+p {
+    font-family: var(--font-secondary);
 }
 
-.nav {
-    background-color: #F2F2F2;
-    padding-left: 45px;
-    height: 100px;
-    display: block;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    margin-bottom: 10px;
-    z-index: 9999;
+strong {
+    color: var(--brilliant-rose);
 }
 
-.nav-heading {
-    font-size: 40px;
-    font-weight: bold;
-    margin: 0;
-    padding-top: 5px;
-    margin-bottom: -15px;
+.stroke {
+    color: inherit;
+    text-shadow: -2px -2px 0 white,
+    2px -2px 0 white,
+    -2px 2px 0 white,
+    2px 2px 0 white;
 }
 
-.nav-subheading {
-    font-size: 23.2px;
-    margin: 0;
+.card {
+    margin: 1rem;
 }
 
-.label1 {
-    font-size: 50px;
-    font-weight: bold;
-    margin-bottom: 30px;
+.form-floating > label {
+    left: auto;
+    overflow: hidden;
 }
 
-.input-row {
-    margin: 0;
-    width: 1100px;
+.unselectable {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
-.scatter-btn {
-    height: 50px;
-    background-color: #D9D9D9;
-    font-weight: bold;
-    font-size: large;
-    padding-top: 10px;
+.bg-image {
+    background-image: linear-gradient(rgba(255, 255, 255, 0), var(--celadon)), url("../IMG/bgImg.jpg");
+    background-position: 50% center;
+    background-size: cover;
 }
 
-/* Chrome, Safari, Edge, Opera */
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-/* Firefox */
-input[type=number] {
-  -moz-appearance: textfield;
+.bg-image::before {
+    backdrop-filter: blur(10px);
 }
