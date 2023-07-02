@@ -1,0 +1,5 @@
+Print mapping for column:  state  |||  {'OH': 0, 'NJ': 1, 'OK': 2, 'MA': 3, 'MO': 4, 'LA': 5, 'WV': 6, 'IN': 7, 'RI': 8, 'IA': 9, 'MT': 10, 'NY': 11, 'ID': 12, 'VA': 13, 'TX': 14, 'FL': 15, 'CO': 16, 'AZ': 17, 'SC': 18, 'WY': 19, 'HI': 20, 'NH': 21, 'AK': 22, 'GA': 23, 'MD': 24, 'AR': 25, 'WI': 26, 'OR': 27, 'MI': 28, 'DE': 29, 'UT': 30, 'CA': 31, 'SD': 32, 'NC': 33, 'WA': 34, 'MN': 35, 
+'NM': 36, 'NV': 37, 'DC': 38, 'VT': 39, 'KY': 40, 'ME': 41, 'MS': 42, 'AL': 43, 'NE': 44, 'KS': 45, 'TN': 46, 'IL': 47, 'PA': 48, 'CT': 49, 'ND': 50}
+Print mapping for column:  area_code  |||  {'area_code_415': 0, 'area_code_408': 1, 'area_code_510': 2}
+Print mapping for column:  international_plan  |||  {'no': 0, 'yes': 1}
+Print mapping for column:  voice_mail_plan  |||  {'yes': 0, 'no': 1}

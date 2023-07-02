@@ -1,4 +1,46 @@
 """
+====================================================== As of 2nd July 2023 ====================================================== 
+Best hyperparameters: {'max_depth': 20, 'n_estimators': 300}
+Best score: 0.9967474542109519
+classifier:  RandomForestClassifier(criterion='entropy', max_depth=20, n_estimators=300)
+Confusion matrix: 
+ [[740   6]
+ [  0 715]]
+Precision:  0.9916782246879334
+Recall:  1.0
+F-BETA:  0.9983244903658196
+Feature importance:
+NEW_total_local_charge :  0.13754365485469452
+number_customer_service_calls :  0.13595946044285231
+international_plan :  0.08353648370401262
+total_day_charge :  0.06291220997811324
+NEW_total_minutes :  0.06150507116886839
+total_day_minutes :  0.054116405053873225
+NEW_ratio_calls :  0.03759616875944958
+total_intl_minutes :  0.027879427902315252
+total_intl_charge :  0.027403255965258798
+NEW_ratio_minutes :  0.023869134770129634
+total_eve_minutes :  0.023609914739228934
+NEW_ratio_charge :  0.023437135675494884
+total_eve_charge :  0.023285382710469527
+number_vmail_messages :  0.023156048903725142
+NEW_avg_day_minutes :  0.02315083437010761
+total_intl_calls :  0.02217516775411531
+state :  0.019924526163628848
+total_night_charge :  0.019651381993846508
+total_night_minutes :  0.019533963122915998
+voice_mail_plan :  0.019209753564183175
+NEW_total_calls :  0.018682905356665124
+total_night_calls :  0.018368475134569396
+NEW_avg_night_minutes :  0.01821257703477922
+total_eve_calls :  0.018010429245146047
+total_day_calls :  0.01800511365023948
+NEW_avg_eve_minutes :  0.017521083003001613
+account_length :  0.016979113032361732
+area_code :  0.004764921945953931
+Classes:  ['no' 'yes']
+
+
 ====================================================== As of 15th June 2023 ====================================================== 
 Best hyperparameters: {'max_depth': 20, 'n_estimators': 400}
 Best score: 0.9957203499068401
@@ -133,44 +175,43 @@ def fitChurn():
 
     '''=========================I.D. DATA PREPARATION: FEATURE ENGINEERING========================='''
     # Calculate the total number of calls made by a customer
-    data_set['total_calls'] = data_set['total_day_calls'] + data_set['total_eve_calls'] + data_set['total_night_calls']
+    data_set['NEW_total_calls'] = data_set['total_day_calls'] + data_set['total_eve_calls'] + data_set['total_night_calls']
     # Comment: The total number of calls reflects the customer's overall engagement and usage of telecom services. Higher engagement may indicate a lower likelihood of churn.
 
     # Calculate the total number of minutes used by a customer
-    data_set['total_minutes'] = data_set['total_day_minutes'] + data_set['total_eve_minutes'] + data_set['total_night_minutes']
+    data_set['NEW_total_minutes'] = data_set['total_day_minutes'] + data_set['total_eve_minutes'] + data_set['total_night_minutes']
     # Comment: Total minutes used represents the customer's level of activity and dependence on telecom services. Higher usage may suggest a stronger commitment to the service.
 
     # Calculate the ratio of international calls to total calls
-    data_set['ratio_calls'] = data_set['total_intl_calls'] / data_set['total_calls']
+    data_set['NEW_ratio_calls'] = data_set['total_intl_calls'] / data_set['NEW_total_calls']
     # Comment: The ratio of international calls helps identify the customer's international communication patterns. Higher ratios may indicate a specific need for international connectivity.
 
     # Calculate the ratio of international minutes to total minutes
-    data_set['ratio_minutes'] = data_set['total_intl_minutes'] / data_set['total_minutes']
+    data_set['NEW_ratio_minutes'] = data_set['total_intl_minutes'] / data_set['NEW_total_minutes']
     # Comment: The ratio of international minutes highlights the extent of international calling relative to the overall calling activity. Higher ratios may indicate an increased risk of churn for customers with high international usage.
 
     # Calculate the average number of minutes used during day calls per month
-    data_set['avg_day_minutes'] = data_set['total_day_minutes'] / data_set['account_length']
+    data_set['NEW_avg_day_minutes'] = data_set['total_day_minutes'] / data_set['account_length']
     # Comment: The average number of minutes used during day calls per month provides insights into the customer's typical daytime calling behavior. Unusually low or high values may be indicative of churn risk.
 
     # Calculate the average number of minutes used during evening calls per month
-    data_set['avg_eve_minutes'] = data_set['total_eve_minutes'] / data_set['account_length']
+    data_set['NEW_avg_eve_minutes'] = data_set['total_eve_minutes'] / data_set['account_length']
     # Comment: The average number of minutes used during evening calls per month offers insights into the customer's evening calling habits and preferences. Deviations from the norm may signal churn risk.
 
     # Calculate the average number of minutes used during night calls per month
-    data_set['avg_night_minutes'] = data_set['total_night_minutes'] / data_set['account_length']
+    data_set['NEW_avg_night_minutes'] = data_set['total_night_minutes'] / data_set['account_length']
     # Comment: The average number of minutes used during night calls per month provides insights into the customer's nighttime calling behavior and usage tendencies. Unusual patterns may indicate churn risk.
 
     # Calculate the total local charge incurred by a customer
-    data_set['total_local_charge'] = data_set['total_day_charge'] + data_set['total_eve_charge'] + data_set['total_night_charge']
+    data_set['NEW_total_local_charge'] = data_set['total_day_charge'] + data_set['total_eve_charge'] + data_set['total_night_charge']
     # Comment: The total local charge reflects the customer's monetary commitment to local calls. Higher charges may indicate a stronger connection and lower churn likelihood.
 
     # Calculate the ratio of international charge to total local charge
-    data_set['ratio_charge'] = data_set['total_intl_charge'] / data_set['total_local_charge']
+    data_set['NEW_ratio_charge'] = data_set['total_intl_charge'] / data_set['NEW_total_local_charge']
     # Comment: The ratio of international charge to total local charge provides insights into the proportion of charges attributable to international calls. Higher ratios may suggest higher churn risk for customers with significant international charges.
 
     '''=========================I.E. DATA PREPARATION: HANDLING IMBALANCED DATASET========================='''
     # Extracting independent and dependent variable
-    #x = data_set[[c for c in data_set.columns if c != 'churn' and data_set[c].dtype in ['float64', 'int64']]]
     x = data_set[[c for c in data_set.columns if c != 'churn']]
     y = data_set['churn']
     print(x)
