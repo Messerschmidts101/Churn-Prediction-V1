@@ -143,7 +143,7 @@ from sklearn.model_selection import (GridSearchCV, StratifiedKFold,
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import MinMaxScaler, StandardScaler
 
-def one_hot_encode(data_set,arrExcludedColumns):
+def label_encode(data_set,arrExcludedColumns):
     # Perform one-hot encoding
     for column in data_set.columns[~data_set.columns.isin(arrExcludedColumns)]:
         if data_set[column].dtype not in ['float64', 'int64']:
@@ -170,7 +170,7 @@ def fitChurn():
             column_mean = data_set[column].mean()
             data_set[column].fillna(column_mean, inplace=True)
     '''=========================I.C. DATA PREPARATION: DATA ENCODING========================='''
-    data_set = one_hot_encode(data_set,['churn'])
+    data_set = label_encode(data_set,['churn'])
     print("after encoding: \n",data_set)
 
     '''=========================I.D. DATA PREPARATION: FEATURE ENGINEERING========================='''
