@@ -1,19 +1,24 @@
 import React from 'react'
 import Header3 from './Header3'
 import ScrollButton from './ScrollButton'
+import Button from './Button'
+import { Link } from 'react-router-dom'
 
-function Heroe({display, children, subheading, button, boolSubheading, boolButton}) {
+function Heroe({display, children, subheading, scrollButton, linkButton}) {
     return (
-        <div className="p-5 text-center bg-image rounded-3 bg-image w-100">
+        <div className="d-flex p-5 justify-content-center align-items-center text-center bg-image rounded-3 bg-image h-100 w-100">
             <div className='mask'>
-                <div className="d-flex card-title justify-content-center align-items-center h-100">
+                <div className=" card-title h-100">
                     <div className="dark-green">
                         <Header3 className={"mb-3 stroke " + display}>{children}</Header3>
                         {
-                            boolSubheading ? <h4 className="mb-3">{subheading}</h4> : ""
+                            subheading ? <h4 className="mb-3">{subheading}</h4> : ""
                         }
                         {
-                            boolButton ? <ScrollButton className="btn-lg" theme={"outline-danger"} href={"#pasteData"}>{button}</ScrollButton> : ""
+                            scrollButton ? <ScrollButton className="btn-lg" theme={"outline-danger"} href={"#pasteData"}>{scrollButton}</ScrollButton> : ""
+                        }
+                        {
+                            linkButton ? <Link to={"/single_customer"}><Button theme={"primary"} className={""}>{linkButton}</Button></Link> : ""
                         }
                     </div>
                 </div>

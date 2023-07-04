@@ -1,5 +1,7 @@
 import React from 'react'
 import Header2 from './Header2'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faGithub } from '@fortawesome/free-brands-svg-icons'
 import { Link } from 'react-router-dom'
 
 function Footer() {
@@ -8,7 +10,7 @@ function Footer() {
             <div className='container p-4'>
                 <section className='mb-4'>
                     <Link to="https://github.com/Messerschmidts101/Churn-Prediction-V1" className="btn btn-outline-light btn-floating m-1">
-                        <i className="fa-brands fa-github"></i>
+                        <FontAwesomeIcon icon={faGithub} />
                     </Link>
                 </section>
                 <section className='mb-4'>

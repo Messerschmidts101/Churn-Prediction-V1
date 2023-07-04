@@ -2,10 +2,10 @@ import React from 'react'
 import Highcharts from 'highcharts'
 import HighchartsReact from 'highcharts-react-official'
 import { useState, useEffect } from 'react'
-import Header3 from '../Components/Header3'
+import Header3 from '../components/Header3'
 import Papa from 'papaparse'
-import Input from '../Components/Input'
-import Heroe from '../Components/Heroe'
+import Input from '../components/Input'
+import Heroe from '../components/Heroe'
 
 function MultipleCustomers() {
     
@@ -342,7 +342,7 @@ function MultipleCustomers() {
                 <div className='container'>
                     <div className='row'>
                         <div className='col-md-6 col-sm-9 my-auto'>
-                            <div  className='card'>
+                            <div  className='card graph'>
                                 <div className='d-flex flex-row my-3 card-title w-100'>
                                     {
                                         population ? population.map((range) => {
@@ -358,7 +358,7 @@ function MultipleCustomers() {
                             </div>
                         </div>
                         <div className='col-md-6 col-sm-9 my-auto'>
-                            <div className='card'>
+                            <div className='card graph'>
                                 <div  className='d-flex flex-row my-3 card-title w-100'>
                                     <div className='col-2'>
                                         <p className=' align-middle h-100' style={{border:"0", margin:"0"}}>Features:</p>
@@ -381,7 +381,7 @@ function MultipleCustomers() {
                         </div>
                     </div>
                     <div className='row'>
-                        <div className='card'>
+                        <div className='card graph'>
                             <div className='d-flex flex-row mb-3 mt-5 card-title w-100'>
                                 <div className='col-1'>
                                     <p className=' align-middle h-100' style={{border:"0", margin:"0"}}>Features:</p>

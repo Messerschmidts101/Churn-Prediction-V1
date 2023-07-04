@@ -1,13 +1,13 @@
-import Button from '../Components/Button'
-import Header1 from '../Components/Header1'
-import Header2 from '../Components/Header2'
-import Input from '../Components/Input'
-import Label from "../Components/Label"
-import InputFeature from '../Components/InputFeature'
+import Button from '../components/Button'
+import Header1 from '../components/Header1'
+import Header2 from '../components/Header2'
+import Input from '../components/Input'
+import Label from "../components/Label"
+import InputFeature from '../components/InputFeature'
 import React from 'react'
 import { useState, useEffect } from 'react'
-import Header3 from '../Components/Header3'
-import Heroe from '../Components/Heroe'
+import Header3 from '../components/Header3'
+import Heroe from '../components/Heroe'
 
 function SingleCustomer() {
 
@@ -77,7 +77,11 @@ function SingleCustomer() {
         <>
             <div className='container'>
                 <div className='card bg-light'>
-                    <Heroe children={"Single Customer Churn"} display={"display-1"} subheading={"Predict a customer's churn!"} button={"Enter Customer Data"} boolSubheading={true} boolButton={true} />
+                    <Heroe
+                        children={"Single Customer Churn"}
+                        display={"display-1"}
+                        subheading={"Predict a customer's churn!"}
+                        scrollButton={"Enter Customer Data"} />
                     <div className='card-body'>
                         <div className='row'>
                             <div className='col-md-6 col-sm-9'>

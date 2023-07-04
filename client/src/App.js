@@ -1,12 +1,12 @@
 
-import Nav from './Components/Nav'
-import Home from './Pages/Home'
-import SingleCustomer from './Pages/SingleCustomer'
-import MultipleCustomers from './Pages/MultipleCustomers'
-import NotFoundPage from './Pages/NotFoundPage'
+import Nav from './components/Nav'
+import Home from './pages/Home'
+import SingleCustomer from './pages/SingleCustomer'
+import MultipleCustomers from './pages/MultipleCustomers'
+import NotFoundPage from './pages/NotFoundPage'
 import { Routes, Route } from 'react-router-dom'
-import './CSS/main.css'
-import Footer from './Components/Footer'
+import './css/main.css'
+import Footer from './components/Footer'
 
 function App() {
     
