@@ -10,6 +10,27 @@
     border-color: var(--asparagus);
 }
 
+.btn-secondary {
+    background-color: var(--orange);
+    border-color: var(--orange);
+}
+
+.btn-secondary:hover {
+    background-color: var(--old-gold);
+    border-color: var(--old-gold);
+}
+
+.btn-outline-secondary {
+    color: var(--orange);
+    border-color: var(--orange);
+}
+
+.btn-outline-secondary:hover {
+    color: white;
+    background-color: var(--old-gold);
+    border-color: var(--old-gold);
+}
+
 .btn-outline-danger {
     color: var(--brilliant-rose);
     border-color: var(--brilliant-rose);

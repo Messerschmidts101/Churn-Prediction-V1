@@ -15,7 +15,7 @@ function Heroe({display, children, subheading, scrollButton, linkButton}) {
                             subheading ? <h4 className="mb-3">{subheading}</h4> : ""
                         }
                         {
-                            scrollButton ? <ScrollButton className="btn-lg" theme={"outline-danger"} href={"#pasteData"}>{scrollButton}</ScrollButton> : ""
+                            scrollButton ? <ScrollButton className="btn-lg" theme={"secondary"} href={"#pasteData"}>{scrollButton}</ScrollButton> : ""
                         }
                         {
                             linkButton ? <Link to={"/single_customer"}><Button theme={"primary"} className={""}>{linkButton}</Button></Link> : ""

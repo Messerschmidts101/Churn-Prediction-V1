@@ -1,6 +1,4 @@
 import Button from '../components/Button'
-import Header1 from '../components/Header1'
-import Header2 from '../components/Header2'
 import Input from '../components/Input'
 import Label from "../components/Label"
 import InputFeature from '../components/InputFeature'
@@ -8,6 +6,7 @@ import React from 'react'
 import { useState, useEffect } from 'react'
 import Header3 from '../components/Header3'
 import Heroe from '../components/Heroe'
+import ChurnPercentage from '../components/ChurnPercentage'
 
 function SingleCustomer() {
 
@@ -69,9 +68,6 @@ function SingleCustomer() {
         )
         
     }
-    const handleChurnColours = () => {
-        return (!isNaN(churn) && churn >= 0.50) ? "old-gold" : "brilliant-rose"
-    }
 
     return (
         <>
@@ -110,19 +106,7 @@ function SingleCustomer() {
                             </div>
                             <div className='col-md-4 my-auto'>
                                 <div className='text-center py-5 unselectable'>
-                                    <div className='py-3 bg-dark-green rounded-pill'>
-                                        <Header2 className={"text-white"}> Churn Rate</Header2>
-                                        <Header1 className={"display-1 " + (handleChurnColours())}>
-                                        {
-                                            isNaN(churn) ? "0.00%": (churn * 100).toFixed(2) + "%"
-                                        }
-                                        </Header1>
-                                        <Header1 className={"display-5 " + (handleChurnColours())}>
-                                        {   
-                                            (!isNaN(churn) && churn >= 0.50) ? "Churned!" : "Not Churned!"
-                                        }
-                                        </Header1>
-                                    </div>
+                                    <ChurnPercentage churn={churn} />
                                 </div>
                             </div>
                         </div>
