@@ -110,7 +110,7 @@ function MultipleCustomers() {
 
     }
     const handleUpload = (file) => {
-        fetch("http://localhost:8080/predict_dataset_feature", {
+        fetch("http://localhost:8080/predict_dataset", {
             method: "POST",
             mode: 'cors',
             headers: {

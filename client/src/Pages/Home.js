@@ -1,7 +1,4 @@
 import React from 'react'
-import Button from '../components/Button'
-import Header1 from '../components/Header1'
-import { Link } from 'react-router-dom'
 import Heroe from '../components/Heroe'
 
 function Home() {
@@ -15,12 +12,13 @@ function Home() {
                         className={""}
                         children={"Welcome"}
                         subheading={(<>
-                                <blockquote className="blockquote">
-                                    <p>"Unlocking Customer Retention: Empowering Businesses to Thrive Through Data-driven Churn Analysis."</p>
-                                </blockquote>
-                                <figcaption className="blockquote-footer">
-                                    Founders of <cite title="Source Title">TelCo Generic</cite>
-                                </figcaption> </>)}
+                            <blockquote className="blockquote">
+                                <p>"Unlocking Customer Retention: Empowering Businesses to Thrive Through Data-driven Churn Analysis."</p>
+                            </blockquote>
+                            <figcaption className="blockquote-footer">
+                                Founders of <cite title="Source Title">TelCo Generic</cite>
+                            </figcaption>
+                        </>)}
                         linkButton={"Get Started!"}/>
                 </div>
             </div>
