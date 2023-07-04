@@ -23,10 +23,6 @@ CORS(app)
 
 data_processor =  DataProcessor()
 
-@app.route("/")
-def Home():
-    return "Wilcommen!"
-
 @app.route("/predict", methods = ["POST","GET"])
 def predict():
     feature_post = request.get_json()
@@ -50,24 +46,6 @@ def predict():
 
 @app.route("/predict_dataset", methods=["POST","GET"])
 def predict_dataset():
-    file_data = request.data
-    # Convert the file_data into a pandas DataFrame
-    df = pd.read_csv(io.BytesIO(file_data))
-    # Process the DataFrame as needed
-    # df = df.drop("churn", axis=1)
-    prediction = pd.DataFrame(churnprediction.predict_proba(df))[1].tolist()
-    print(" +++ === --- DEBUGGER LOGS START --- === +++  ")
-    print('Data shape:', df.shape)
-    print('Data columns:', df.columns)
-    print('Data head:', df.head())
-    print("Prediction ",prediction.sort(reverse=True))
-    print(" +++ === --- DEBUGGER LOGS END --- === +++  ")
-
-    # return [{"name": i, "data": each} for i, each in enumerate(prediction)]
-    return { "data": prediction }
-
-@app.route("/predict_dataset_feature", methods=["POST","GET"])
-def predict_dataset_feature():
     file_data = request.data
     # Convert the file_data into a pandas DataFrame
     df = pd.read_csv(io.BytesIO(file_data))
