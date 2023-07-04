@@ -35,15 +35,31 @@ function MultipleCustomers() {
         let obj =  data[name]
         return Object.keys(obj).map((key) => obj[key])
     }
+    const handleNormalization = (array) => {
+        // let ratio = Math.max.apply(Math, array) / 100
+        // for(let i = 0; i < array.lengthl; i++) {
+        //     array[i] /= ratio
+        // }
+        // return array
+        var max = array.reduce(function (p, c) {
+            return p < c ? c : p;
+        }, 0);
+        return array.map(function (d, i) {
+            return (d / max);
+            // could be more efficient with just
+            // `(d / max) | 0`, if you divide `max` by 100 above
+        });
+    }
     const handleAreaTransformation = (data) => {
         console.log("selector_area_1:", selector_area_1)
         console.log("selector_area_2:", selector_area_2)
         let prediction = handleMapper(selector_area_1, data)
         let feature =  handleMapper(selector_area_2, data)
-        const totalSum = feature.reduce((sum, value) => sum + value, 0)
-        const ratio = Math.max.apply(Math, feature) / 100
-        const percentageData = feature.map(value => (value / totalSum) * 100);
-        feature = percentageData.map(value => (value / ratio) > 1 ? 1 : value / ratio);
+        feature = handleNormalization(feature)
+        // const totalSum = feature.reduce((sum, value) => sum + value, 0)
+        // const ratio = Math.max.apply(Math, feature) / 100
+        // const percentageData = feature.map(value => (value / totalSum) * 100);
+        // feature = percentageData.map(value => (value / ratio) > 1 ? 1 : value / ratio);
         setSeriesArea(
             [
                 {
