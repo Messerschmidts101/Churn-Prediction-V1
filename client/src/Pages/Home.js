@@ -9,7 +9,7 @@ function Home() {
     return (
         <>
             <div className='' style={{ height: "700px" }}>
-                <div className='d-flex flex-column text-center h-100'>
+                <div className='d-flex flex-column text-center bg-image h-100'>
                     <Heroe
                         display={"display-1"}
                         className={""}
