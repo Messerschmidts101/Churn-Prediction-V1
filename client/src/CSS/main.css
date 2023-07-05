@@ -54,3 +54,12 @@ strong {
 .bg-image::before {
     backdrop-filter: blur(10px);
 }
+
+.mail {
+    color: inherit;
+    text-decoration: none;
+}
+
+.mail:hover {
+    text-decoration: underline;
+}
