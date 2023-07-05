@@ -56,10 +56,9 @@ function MultipleCustomers() {
         let prediction = handleMapper(selector_area_1, data)
         let feature =  handleMapper(selector_area_2, data)
         feature = handleNormalization(feature)
-        // const totalSum = feature.reduce((sum, value) => sum + value, 0)
-        // const ratio = Math.max.apply(Math, feature) / 100
-        // const percentageData = feature.map(value => (value / totalSum) * 100);
-        // feature = percentageData.map(value => (value / ratio) > 1 ? 1 : value / ratio);
+        if(selector_area_1 !== "churn") {
+            prediction = handleNormalization(prediction)
+        }
         setSeriesArea(
             [
                 {
@@ -363,9 +362,12 @@ function MultipleCustomers() {
                                     {
                                         population ? population.map((range) => {
                                             return ( <>
-                                                <div key={range.name} className='col-1'>{range.name}<br /><b>{range.y}</b></div>
+                                                <div key={range.name} className='col-1'>
+                                                    <p className='border-bottom' style={{ fontSize: "12px"}}>{range.name}</p>
+                                                    <b>{range.y}</b>
+                                                </div>
                                             </>)
-                                        }) : "Nothing here"
+                                        }) : <div className='text-muted'>Nothing here</div>
                                     }
                                 </div>
                                 <div className='card-body w-100'>
