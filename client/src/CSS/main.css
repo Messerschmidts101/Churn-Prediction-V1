@@ -27,7 +27,7 @@ strong {
     2px 2px 0 white;
 }
 
-.card {
+.graph {
     margin: 1rem;
 }
 
@@ -46,11 +46,20 @@ strong {
 }
 
 .bg-image {
-    background-image: linear-gradient(rgba(255, 255, 255, 0), var(--celadon)), url("../IMG/bgImg.jpg");
+    background-image: linear-gradient(rgba(255, 255, 255, 0), var(--celadon)), url("../img/bgImg.jpg");
     background-position: 50% center;
     background-size: cover;
 }
 
 .bg-image::before {
     backdrop-filter: blur(10px);
+}
+
+.mail {
+    color: inherit;
+    text-decoration: none;
+}
+
+.mail:hover {
+    text-decoration: underline;
 }

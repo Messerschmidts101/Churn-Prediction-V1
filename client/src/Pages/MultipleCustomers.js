@@ -2,10 +2,10 @@ import React from 'react'
 import Highcharts from 'highcharts'
 import HighchartsReact from 'highcharts-react-official'
 import { useState, useEffect } from 'react'
-import Header3 from '../Components/Header3'
+import Header3 from '../components/Header3'
 import Papa from 'papaparse'
-import Input from '../Components/Input'
-import Heroe from '../Components/Heroe'
+import Input from '../components/Input'
+import Heroe from '../components/Heroe'
 
 function MultipleCustomers() {
     
@@ -35,15 +35,30 @@ function MultipleCustomers() {
         let obj =  data[name]
         return Object.keys(obj).map((key) => obj[key])
     }
+    const handleNormalization = (array) => {
+        // let ratio = Math.max.apply(Math, array) / 100
+        // for(let i = 0; i < array.lengthl; i++) {
+        //     array[i] /= ratio
+        // }
+        // return array
+        var max = array.reduce(function (p, c) {
+            return p < c ? c : p;
+        }, 0);
+        return array.map(function (d, i) {
+            return (d / max);
+            // could be more efficient with just
+            // `(d / max) | 0`, if you divide `max` by 100 above
+        });
+    }
     const handleAreaTransformation = (data) => {
         console.log("selector_area_1:", selector_area_1)
         console.log("selector_area_2:", selector_area_2)
         let prediction = handleMapper(selector_area_1, data)
         let feature =  handleMapper(selector_area_2, data)
-        const totalSum = feature.reduce((sum, value) => sum + value, 0)
-        const ratio = Math.max.apply(Math, feature) / 100
-        const percentageData = feature.map(value => (value / totalSum) * 100);
-        feature = percentageData.map(value => (value / ratio) > 1 ? 1 : value / ratio);
+        feature = handleNormalization(feature)
+        if(selector_area_1 !== "churn") {
+            prediction = handleNormalization(prediction)
+        }
         setSeriesArea(
             [
                 {
@@ -110,7 +125,7 @@ function MultipleCustomers() {
 
     }
     const handleUpload = (file) => {
-        fetch("http://localhost:8080/predict_dataset_feature", {
+        fetch("http://localhost:8080/predict_dataset", {
             method: "POST",
             mode: 'cors',
             headers: {
@@ -342,14 +357,17 @@ function MultipleCustomers() {
                 <div className='container'>
                     <div className='row'>
                         <div className='col-md-6 col-sm-9 my-auto'>
-                            <div  className='card'>
+                            <div  className='card graph'>
                                 <div className='d-flex flex-row my-3 card-title w-100'>
                                     {
                                         population ? population.map((range) => {
                                             return ( <>
-                                                <div key={range.name} className='col-1'>{range.name}<br /><b>{range.y}</b></div>
+                                                <div key={range.name} className='col-1'>
+                                                    <p className='border-bottom' style={{ fontSize: "12px"}}>{range.name}</p>
+                                                    <b>{range.y}</b>
+                                                </div>
                                             </>)
-                                        }) : "Nothing here"
+                                        }) : <div className='text-muted'>Nothing here</div>
                                     }
                                 </div>
                                 <div className='card-body w-100'>
@@ -358,7 +376,7 @@ function MultipleCustomers() {
                             </div>
                         </div>
                         <div className='col-md-6 col-sm-9 my-auto'>
-                            <div className='card'>
+                            <div className='card graph'>
                                 <div  className='d-flex flex-row my-3 card-title w-100'>
                                     <div className='col-2'>
                                         <p className=' align-middle h-100' style={{border:"0", margin:"0"}}>Features:</p>
@@ -381,7 +399,7 @@ function MultipleCustomers() {
                         </div>
                     </div>
                     <div className='row'>
-                        <div className='card'>
+                        <div className='card graph'>
                             <div className='d-flex flex-row mb-3 mt-5 card-title w-100'>
                                 <div className='col-1'>
                                     <p className=' align-middle h-100' style={{border:"0", margin:"0"}}>Features:</p>
