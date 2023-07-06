@@ -10,23 +10,6 @@ const handleChurnPercentage = (churn) => {
 const handleChurnColours = (churn) => {
     return handleChurnPercentage(churn) ? "brilliant-rose" : "old-gold"
 }
-// const handlePercentAnimation = (churn) => {
-//     let percent = document.querySelector("#percentage")
-//     let interval = 100000
-
-//     percent.forEach(element => {
-//         let start = 0
-//         let end = churn | 1
-//         let duration = (interval / end).toFixed(2)
-//         let counter = setInterval(() => {
-//             start+=0.01
-//             element.textContent = start.toFixed(2) + "%"
-//             if(start == end) {
-//                 clearInterval(counter)
-//             }
-//         }, duration)
-//     });
-// }
 
 function ChurnPercentage({churn = 0}) {
     return (
@@ -39,7 +22,7 @@ function ChurnPercentage({churn = 0}) {
             </Header1>
             <Header1 className={(handleChurnColours(churn))}>
                 {
-                    handleChurnPercentage(churn) ?  [<FontAwesomeIcon icon={faCheck} className='brilliant-rose' /> , " Churned!"] : [<FontAwesomeIcon icon={faXmark} className='old-gold' /> , " Not Churned!"]
+                    handleChurnPercentage(churn) ?  [<FontAwesomeIcon icon={faXmark} className='brilliant-rose' /> , " Churned!"] : [<FontAwesomeIcon icon={faCheck} className='old-gold' /> , " Not Churned!"]
                 }
             </Header1>
         </div>
